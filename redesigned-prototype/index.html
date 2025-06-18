@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Handbook of Brutal Honesty</title>
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Enhanced font selection -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Meta tags for better sharing -->
+    <meta name="description" content="A practical guide to building honest, genuine relationships through the art of brutal honesty.">
+    <meta name="author" content="The Handbook of Brutal Honesty">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+</head>
+<body>
+    <!-- Background effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-particles"></div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="nav-brand">
+            <h1>The Handbook of Brutal Honesty</h1>
+            <div class="nav-subtitle">A Guide to Authentic Living</div>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" title="Toggle Theme (T)">
+                <span class="theme-icon">🌙</span>
+            </button>
+            <button class="menu-toggle" title="Toggle Menu (M)">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Application Container -->
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <!-- Search -->
+                <div class="search-container">
+                    <input type="search" id="search-bar" placeholder="Search chapters..." autocomplete="off">
+                    <span class="search-icon">🔍</span>
+                </div>
+                
+                <!-- Reading Progress -->
+                <div class="reading-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-text" id="progress-text">0% Complete</div>
+                </div>
+            </div>
+
+            <!-- Chapter Navigation -->
+            <nav class="chapter-nav" id="toc">
+                <!-- Table of Contents will be generated here by JS -->
+            </nav>
+
+            <!-- Sidebar Footer with Stats -->
+            <div class="sidebar-footer">
+                <div class="reading-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="chapters-read">0</span>
+                        <span class="stat-label">Chapters</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="reading-time">0m</span>
+                        <span class="stat-label">Reading Time</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <div id="content" class="content-area">
+                    <!-- Chapter content will be loaded here by JS -->
+                    <div class="loading-state">
+                        <h2>Loading your reading experience...</h2>
+                        <p>Preparing the handbook for you.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Chapter Navigation Controls -->
+    <div class="chapter-controls">
+        <button class="nav-btn" id="prev-chapter" title="Previous Chapter (←)">
+            <span class="btn-icon">←</span>
+            Previous
+        </button>
+        <button class="nav-btn" id="next-chapter" title="Next Chapter (→)">
+            Next
+            <span class="btn-icon">→</span>
+        </button>
+    </div>
+
+    <!-- Floating Action Button for Reading Mode -->
+    <button class="fab" id="reading-mode-toggle" title="Focus Mode (F)">
+        📖
+    </button>
+
+    <!-- Reading Mode Overlay -->
+    <div class="reading-mode-overlay" id="reading-mode">
+        <div class="reading-mode-content">
+            <button class="close-reading-mode" id="close-reading-mode" title="Close (Esc)">
+                ×
+            </button>
+            <div id="reading-content">
+                <!-- Content will be copied here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html> 
