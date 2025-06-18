@@ -1,0 +1,40 @@
+{
+  "name": "brutal-honesty-handbook",
+  "version": "1.0.0",
+  "description": "The Original Field Guide for Brutal Honesty - A premium digital reading experience",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "dev:node": "npx serve .",
+    "dev:php": "php -S localhost:8000",
+    "build": "echo 'No build process needed - static files ready for deployment'",
+    "deploy": "vercel --prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/brutal-honesty-handbook.git"
+  },
+  "keywords": [
+    "book",
+    "digital-reading",
+    "brutal-honesty",
+    "typography",
+    "reading-experience",
+    "static-site"
+  ],
+  "author": "Mike Kamminga aka The Cult Leader",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/your-username/brutal-honesty-handbook/issues"
+  },
+  "homepage": "https://github.com/your-username/brutal-honesty-handbook#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {},
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+} 
