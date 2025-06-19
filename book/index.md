@@ -24,18 +24,19 @@
 *   [Chapter 6: Handling Power Gradients & Cultural Nuance](06_handling_power_gradients.md)
 *   [Chapter 7: Digital-First Honesty](07_digital_first_honesty.md)
 *   [Chapter 8: Neurodiversity: Honesty as Baseline Super-Power](08_neurodiversity.md)
+*   [Chapter 9: The Art of Repair](09_the_art_of_repair.md)
 
 ### Part III: Field Guide
 
-*   [Chapter 9: Love & Friendship](09_love_and_friendship.md)
-*   [Chapter 10: Family Systems & Repair](10_family_systems_and_repair.md)
-*   [Chapter 11: Workplaces That Run on Truth](11_workplaces_that_run_on_truth.md)
-*   [Chapter 12: From Personal Truth to Public Integrity](12_from_personal_truth_to_public_integrity.md)
+*   [Chapter 10: Love & Friendship](10_love_and_friendship.md)
+*   [Chapter 11: Family Systems & Hierarchies](11_family_systems_and_hierarchies.md)
+*   [Chapter 12: Workplaces That Run on Truth](12_workplaces_that_run_on_truth.md)
+*   [Chapter 13: From Personal Truth to Public Integrity](13_from_personal_truth_to_public_integrity.md)
 
 ### Part IV: Practice
 
-*   [Chapter 13: The 30-Day Honesty Habit Plan](13_the_30_day_honesty_habit_plan.md)
-*   [Chapter 14: Self-Assessment & Progress Quiz](14_self_assessment_quiz.md)
+*   [Chapter 14: The 30-Day Honesty Habit Plan](14_the_30_day_honesty_habit_plan.md)
+*   [Chapter 15: Self-Assessment & Progress Quiz](15_self_assessment_quiz.md)
 *   [Worksheets & Visual Aids](worksheets.md)
 
 ### —

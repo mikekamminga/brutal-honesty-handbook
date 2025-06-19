@@ -1,6 +1,6 @@
-## CHAPTER 14: SELF-ASSESSMENT & PROGRESS QUIZ
+## CHAPTER 15: SELF-ASSESSMENT & PROGRESS QUIZ
 
-This quiz is a tool for self-reflection. It's designed to give you a benchmark of where you are right now in your honesty practice. Take it once before you begin the 30-Day Plan in Chapter 13, and then again after you complete it to see how you've grown.
+This quiz is a tool for self-reflection. It's designed to give you a benchmark of where you are right now in your honesty practice. Take it once before you begin the 30-Day Plan in Chapter 14, and then again after you complete it to see how you've grown.
 
 For each statement, rate yourself on a scale of 1 to 5, where:
 *   **1** = Never

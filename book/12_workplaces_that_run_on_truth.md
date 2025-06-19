@@ -1,4 +1,4 @@
-## CHAPTER 11: WORKPLACES THAT RUN ON TRUTH
+## CHAPTER 12: WORKPLACES THAT RUN ON TRUTH
 
 The modern workplace often runs on a complex, unspoken system of avoiding directness to preserve egos and sidestep conflict. We call it "being professional," but it results in an environment that is slow, inefficient, and riddled with passive-aggressive tension. This is where bad projects are allowed to continue for months, where colleagues are never given the feedback they need to grow, and where teams operate on false assumptions.
 
@@ -32,6 +32,6 @@ For the next 60 seconds (or more), it is everyone's job to try and poke holes in
 
 ### Navigating Power Dynamics
 
-As discussed in Chapter 6, honesty must always be calibrated to the power dynamics at play. The strategies for managing up, managing peers, and managing down are critical in a professional context. Please refer back to that chapter for specific tactics. The "In the Interest of..." framing is particularly useful in a workplace setting.
+As discussed in Chapter 6, honesty must always be calibrated to the power dynamics at play. The strategies for managing up, managing peers, and managing down are critical in a professional context. When workplace honesty creates ruptures, the universal repair skills from Chapter 9 apply, though they should be adapted to maintain professional boundaries.
 
 An honest workplace is a high-performing workplace. It's faster, more innovative, and has a culture where people feel respected enough to be told the truth. It might feel less "nice" on the surface, but it's far kinder and more effective in reality. 

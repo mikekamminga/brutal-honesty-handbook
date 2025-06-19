@@ -1,4 +1,4 @@
-## CHAPTER 12: FROM PERSONAL TRUTH TO PUBLIC INTEGRITY
+## CHAPTER 13: FROM PERSONAL TRUTH TO PUBLIC INTEGRITY
 
 The practice of brutal honesty begins with yourself and extends to your relationships and workplace. But for some, there comes a moment when personal truth must become public integrity. This is the world of the whistle-blower, the activist, the leader who must speak an unpopular truth to an entire organization or community.
 

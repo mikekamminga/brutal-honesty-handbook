@@ -1,4 +1,4 @@
-## CHAPTER 9: LOVE & FRIENDSHIP
+## CHAPTER 10: LOVE & FRIENDSHIP
 
 This is where the practice of brutal honesty becomes most rewarding, and most terrifying. Love and friendship are the connections that give our lives meaning, and therefore they are the ones where our fears of loss, conflict, and rejection are most acute.
 
@@ -38,4 +38,4 @@ This is a vulnerable, brave, and loving step. It's an invitation to co-create a 
 
 </details>
 
-An honest relationship isn't a conflict-free one. It is one where conflict is handled cleanly, ruptures are repaired, and the connection becomes deeper and more resilient than anything built on a foundation of polite lies. 
+An honest relationship isn't a conflict-free one. It is one where conflict is handled cleanly, ruptures are repaired (see Chapter 9 for universal repair skills), and the connection becomes deeper and more resilient than anything built on a foundation of polite lies. 

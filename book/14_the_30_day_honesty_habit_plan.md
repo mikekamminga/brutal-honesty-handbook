@@ -1,4 +1,4 @@
-## CHAPTER 13: THE 30-DAY HONESTY HABIT PLAN
+## CHAPTER 14: THE 30-DAY HONESTY HABIT PLAN
 
 This book is a guide to a new practice, and like any practice, it requires consistent effort to build muscle. But living honestly is a marathon, not a sprint. There will be times when you feel tired, when relationships resist your efforts, or when the comfort of a polite lie feels overwhelmingly tempting. Here's how to stay the course.
 
