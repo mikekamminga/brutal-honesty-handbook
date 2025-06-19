@@ -12,7 +12,7 @@ For each statement, rate yourself on a scale of 1 to 5, where:
 Be brutally honest with yourself. There are no right or wrong answers.
 
 ---
-
+<!-- 
 ### The Quiz
 
 **Part 1: Self-Honesty**
@@ -52,4 +52,4 @@ Total your score for all 20 questions.
 *   **81-100: Fluent.** You are a master practitioner of brutal honesty and radical respect. Your challenge is to mentor others and tackle the public integrity issues in Chapter 12.
 *   **61-80: Practicing.** You have a strong foundation and are actively choosing honesty in many parts of your life. The 30-day plan will help you turn your skills into consistent habits.
 *   **41-60: Emerging.** You are aware of the need for honesty and have started to take risks. Focus on the exercises in Part I and II to build your confidence and skillset.
-*   **0-40: Aware.** You know that something needs to change, and you've taken the first step by being here. This entire book is for you. Start with the smallest, safest exercises. Be patient with yourself. Progress is inevitable if you stick with the practice.
+*   **0-40: Aware.** You know that something needs to change, and you've taken the first step by being here. This entire book is for you. Start with the smallest, safest exercises. Be patient with yourself. Progress is inevitable if you stick with the practice. -->

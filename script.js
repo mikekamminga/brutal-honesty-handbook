@@ -19,7 +19,6 @@ const elements = {
   sidebar: document.getElementById('sidebar'),
   toc: document.getElementById('toc'),
   content: document.getElementById('content'),
-  searchBar: document.getElementById('search-bar'),
   progressFill: document.getElementById('progress-fill'),
   progressText: document.getElementById('progress-text'),
   chaptersRead: document.getElementById('chapters-read'),
@@ -83,9 +82,6 @@ function setupEventListeners() {
   // Menu toggle (mobile)
   elements.menuToggle?.addEventListener('click', toggleSidebar);
   
-  // Search functionality
-  elements.searchBar?.addEventListener('input', handleSearch);
-  
   // Reading mode
   elements.fab?.addEventListener('click', toggleReadingMode);
   elements.closeReadingMode?.addEventListener('click', closeReadingMode);
@@ -147,9 +143,9 @@ function parseBookIndex(indexContent) {
   let currentSection = null;
   
   for (const line of lines) {
-    // Look for section headers (### Part I: Mindset)
+    // Look for section headers (### Part I: Mindset), but skip em dashes
     const sectionMatch = line.match(/^### (.+)$/);
-    if (sectionMatch) {
+    if (sectionMatch && sectionMatch[1] !== '—') {
       currentSection = sectionMatch[1];
       continue;
     }
@@ -449,38 +445,7 @@ function updateActiveChapter(chapterId) {
   }
 }
 
-function handleSearch(e) {
-  const searchTerm = e.target.value.toLowerCase().trim();
-  const tocLinks = elements.toc.querySelectorAll('a');
-  
-  tocLinks.forEach(link => {
-    const chapterTitle = link.textContent.toLowerCase();
-    const listItem = link.parentElement;
-    
-    if (!searchTerm || chapterTitle.includes(searchTerm)) {
-      listItem.style.display = '';
-    } else {
-      listItem.style.display = 'none';
-    }
-  });
-  
-  // Show/hide section headers based on whether they have visible chapters
-  const sectionHeaders = elements.toc.querySelectorAll('.section-header');
-  sectionHeaders.forEach(header => {
-    let hasVisibleChapters = false;
-    let nextElement = header.nextElementSibling;
-    
-    while (nextElement && !nextElement.classList.contains('section-header')) {
-      if (nextElement.style.display !== 'none') {
-        hasVisibleChapters = true;
-        break;
-      }
-      nextElement = nextElement.nextElementSibling;
-    }
-    
-    header.style.display = hasVisibleChapters ? '' : 'none';
-  });
-}
+
 
 function initializeTheme() {
   const savedTheme = localStorage.getItem('theme') || 'dark';
