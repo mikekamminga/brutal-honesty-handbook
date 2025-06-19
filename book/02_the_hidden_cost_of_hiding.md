@@ -24,8 +24,6 @@ These fears lead to avoidance, and there is a hidden tax on every polite lie, ev
 *   **You build a prison of false expectations.** People fall in love with, befriend, or hire a person you are only pretending to be. The mask will eventually slip, and the fallout will be far worse than an early, honest admission of who you are.
 *   **You lose touch with yourself.** The lies you tell others eventually become the lies you tell yourself. Your own truth becomes a distant echo.
 
-> **Case study:** A Fortune-500 product team that replaced "executive theater" with weekly red-team minutes cut time-to-decision by 42%. (Internal data, 2023.)
-
 Avoidance is not kindness. It's a slow, corrosive acid that eats away at the foundation of trust—both their trust in you and your trust in yourself. When the truth finally does surface—and it always does—it's ten times messier, because now it's tangled up with the additional betrayal of all the silence.
 
 > "Avoiding honesty doesn't prevent pain. It just makes it deeper, slower, and more destructive when it finally surfaces."

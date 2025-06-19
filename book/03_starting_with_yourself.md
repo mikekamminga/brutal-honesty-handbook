@@ -21,7 +21,7 @@ To be brutally honest with yourself is to fire that PR firm.
 The stories we tell ourselves about our feelings often mask a deeper, simpler need. Use this framework to look underneath.
 
 | Feeling | Surface Story | Likely Deeper Need |
-| :--- | :--- | :--- |
+|:--------|:--------------|:-------------------|
 | Jealousy | "They're ignoring me." | Recognition, security |
 | Irritation | "They're sloppy." | Shared standards |
 | Procrastination | "I'll do it tomorrow." | Safety from failure |

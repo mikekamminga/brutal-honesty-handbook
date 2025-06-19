@@ -77,6 +77,9 @@ function setupEventListeners() {
   // Theme toggle
   elements.themeToggle?.addEventListener('click', toggleTheme);
   
+  // Refresh toggle
+  document.getElementById('refresh-content')?.addEventListener('click', handleRefreshClick);
+  
   // Menu toggle (mobile)
   elements.menuToggle?.addEventListener('click', toggleSidebar);
   
@@ -101,13 +104,20 @@ function setupEventListeners() {
   
   // Enhanced scroll behavior
   elements.content?.addEventListener('scroll', debounce(handleScroll, 16));
+  
+  // Sidebar resizing
+  setupSidebarResizing();
 }
 
 // ===== BOOK CONTENT LOADING =====
 async function loadBookContent() {
   try {
-    const response = await fetch('book.json');
-    chapters = await response.json();
+    // Load the book structure from index.md
+    const indexResponse = await fetch('book/index.md');
+    const indexContent = await indexResponse.text();
+    
+    // Parse the index to get chapter structure
+    chapters = parseBookIndex(indexContent);
     
     generateTableOfContents();
     
@@ -116,7 +126,7 @@ async function loadBookContent() {
     const initialIndex = chapters.findIndex(chapter => chapter.id === initialChapterId);
     currentChapterIndex = initialIndex >= 0 ? initialIndex : 0;
     
-    loadChapter(currentChapterIndex);
+    await loadChapter(currentChapterIndex);
     updateNavigationButtons();
     
   } catch (error) {
@@ -125,17 +135,152 @@ async function loadBookContent() {
       <div class="error-message">
         <h2>Unable to load content</h2>
         <p>Please check your connection and try again.</p>
+        <p>Error: ${error.message}</p>
       </div>
     `;
   }
 }
 
+function parseBookIndex(indexContent) {
+  const chapters = [];
+  const lines = indexContent.split('\n');
+  let currentSection = null;
+  
+  for (const line of lines) {
+    // Look for section headers (### Part I: Mindset)
+    const sectionMatch = line.match(/^### (.+)$/);
+    if (sectionMatch) {
+      currentSection = sectionMatch[1];
+      continue;
+    }
+    
+    // Look for chapter links (*   [Chapter 1: What Brutal Honesty Is—and Is Not](01_what_brutal_honesty_is.md))
+    const chapterMatch = line.match(/^\*\s+\[([^\]]+)\]\(([^)]+)\)$/);
+    if (chapterMatch) {
+      const title = chapterMatch[1];
+      const filename = chapterMatch[2];
+      const id = filename.replace('.md', '');
+      
+      chapters.push({
+        id,
+        title,
+        filename,
+        section: currentSection,
+        content: null // Will be loaded when needed
+      });
+    }
+  }
+  
+  return chapters;
+}
+
+async function loadChapterContent(chapter, forceRefresh = false) {
+  if (chapter.content && !forceRefresh) {
+    return chapter.content; // Already loaded and not forcing refresh
+  }
+  
+  try {
+    // Add cache-busting parameter to prevent browser caching issues
+    const timestamp = new Date().getTime();
+    const url = `book/${chapter.filename}?t=${timestamp}`;
+    
+    const response = await fetch(url, {
+      cache: 'no-cache',
+      headers: {
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      }
+    });
+    
+    const markdownContent = await response.text();
+    const htmlContent = parseMarkdown(markdownContent);
+    
+    chapter.content = htmlContent;
+    return htmlContent;
+  } catch (error) {
+    console.error(`Failed to load chapter ${chapter.filename}:`, error);
+    return `<p>Error loading chapter content.</p>`;
+  }
+}
+
+function parseMarkdown(markdown) {
+  // Configure marked.js
+  marked.setOptions({
+    breaks: true,
+    gfm: true,
+    sanitize: false,
+    smartLists: true,
+    smartypants: true,
+    tables: true
+  });
+
+  // Create custom renderer for specific elements
+  const renderer = new marked.Renderer();
+  
+  // Customize table rendering to use our existing CSS classes
+  renderer.table = function(header, body) {
+    return `<table class="content-table">
+      <thead>${header}</thead>
+      <tbody>${body}</tbody>
+    </table>`;
+  };
+  
+  // Customize blockquote rendering
+  renderer.blockquote = function(quote) {
+    return `<blockquote>${quote}</blockquote>`;
+  };
+  
+  // Customize list rendering to handle special patterns
+  renderer.list = function(body, ordered, start) {
+    const type = ordered ? 'ol' : 'ul';
+    const startatt = (ordered && start !== 1) ? ` start="${start}"` : '';
+    return `<${type}${startatt}>${body}</${type}>`;
+  };
+  
+  // Parse with marked.js
+  let html = marked.parse(markdown, { renderer });
+  
+  // Post-process for custom elements
+  html = postProcessMarkdown(html);
+  
+  return html;
+}
+
+function postProcessMarkdown(html) {
+  // Handle details/summary sections with custom classes
+  html = html.replace(/<details>/g, '<details class="exercise-section">');
+  html = html.replace(/<summary>([^<]+)<\/summary>/g, '<summary>$1</summary><div class="exercise-content">');
+  html = html.replace(/<\/details>/g, '</div></details>');
+  
+  // Handle special formatting patterns for declarative statements
+  html = html.replace(/<ul>\s*<li>(It is [^<]+)<\/li>\s*<li>(It is [^<]+)<\/li>/g, 
+    '<ul><li>$1</li><li>$2</li>');
+  
+  // Handle "Instead of:" and "Try:" patterns
+  html = html.replace(/<p><strong>(Instead of|Try):<\/strong>\s*([^<]+)<\/p>/g, 
+    '<div class="example-block"><strong class="example-label">$1:</strong> $2</div>');
+  
+  return html;
+}
+
+
+
 function generateTableOfContents() {
   if (!elements.toc) return;
   
   const ul = document.createElement('ul');
+  let currentSection = null;
   
   chapters.forEach((chapter, index) => {
+    // Add section header if this is a new section
+    if (chapter.section && chapter.section !== currentSection) {
+      const sectionLi = document.createElement('li');
+      sectionLi.className = 'section-header';
+      sectionLi.textContent = chapter.section;
+      ul.appendChild(sectionLi);
+      currentSection = chapter.section;
+    }
+    
     const li = document.createElement('li');
     const a = document.createElement('a');
     
@@ -161,242 +306,157 @@ function generateTableOfContents() {
 
 function cleanChapterTitle(title) {
   return title
-    .replace(/^##\s*/, '')
-    .replace(/^CHAPTER \d+:\s*/, '')
-    .replace(/^PROLOGUE:\s*/, 'Prologue: ')
-    .replace(/^INTRODUCTION$/, 'Introduction');
+    .replace(/^Chapter \d+:\s*/, '')
+    .replace(/^Prologue:\s*/, 'Prologue: ')
+    .replace(/^Introduction:\s*/, 'Introduction: ')
+    .replace(/^Epilogue:\s*/, 'Epilogue: ');
 }
 
 // ===== ENHANCED CONTENT PROCESSING =====
-function processChapterContent(rawContent) {
-  // Decode HTML entities
-  let content = rawContent
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#x27;/g, "'")
-    .replace(/&amp;/g, '&')
-    .replace(/\\/g, '');
-
-  // Remove redundant h3 tags that duplicate the title
-  content = content.replace(/<p><h3>[^<]*<\/h3><\/p>/g, '');
-  
-  // Convert content to proper structure
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(content, 'text/html');
-  
-  // Process the content to improve formatting
-  const processedContent = document.createElement('div');
-  
-  // Extract paragraphs and other elements
-  const elements = Array.from(doc.body.children);
-  
-  elements.forEach(element => {
-    if (element.tagName === 'P') {
-      const text = element.innerHTML;
-      
-      // Check if this is a heading (starts with ###)
-      if (text.startsWith('###')) {
-        const heading = document.createElement('h3');
-        heading.textContent = text.replace(/^###\s*/, '');
-        processedContent.appendChild(heading);
-      }
-      // Check if this is a subheading or emphasis
-      else if (text.includes('<strong>') && text.match(/^<strong>[^<]+<\/strong>$/)) {
-        const subheading = document.createElement('h4');
-        subheading.innerHTML = text;
-        processedContent.appendChild(subheading);
-      }
-      // Check if this is a list item (starts with *)
-      else if (text.trim().startsWith('*')) {
-        // Find or create current list
-        let currentList = processedContent.lastElementChild;
-        if (!currentList || currentList.tagName !== 'UL') {
-          currentList = document.createElement('ul');
-          processedContent.appendChild(currentList);
-        }
-        
-        const listItem = document.createElement('li');
-        listItem.innerHTML = text.replace(/^\s*\*\s*/, '');
-        currentList.appendChild(listItem);
-      }
-      // Check if this is a numbered list item
-      else if (text.match(/^\d+\.\s/)) {
-        // Find or create current list
-        let currentList = processedContent.lastElementChild;
-        if (!currentList || currentList.tagName !== 'OL') {
-          currentList = document.createElement('ol');
-          processedContent.appendChild(currentList);
-        }
-        
-        const listItem = document.createElement('li');
-        listItem.innerHTML = text.replace(/^\d+\.\s*/, '');
-        currentList.appendChild(listItem);
-      }
-      // Regular paragraph
-      else if (text.trim()) {
-        const paragraph = document.createElement('p');
-        paragraph.innerHTML = text;
-        processedContent.appendChild(paragraph);
-      }
-    }
-    // Handle blockquotes
-    else if (element.tagName === 'BLOCKQUOTE') {
-      processedContent.appendChild(element.cloneNode(true));
-    }
-  });
-  
-  // Enhanced text processing with better typography
-  const finalContent = processedContent.innerHTML
-    // Convert *text* to <em>text</em>
-    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-    // Convert **text** to <strong>text</strong>
-    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-    // Convert "text" to proper quotes with smart typography
-    .replace(/\"([^"]+)\"/g, '"$1"')
-    // Add proper spacing for dialogue
-    .replace(/\. \"/g, '. "')
-    .replace(/\? \"/g, '? "')
-    .replace(/\! \"/g, '! "')
-    // Add non-breaking spaces for better typography
-    .replace(/\s—\s/g, ' — ')
-    .replace(/\s--\s/g, ' — ')
-    // Fix common typography issues
-    .replace(/\.\.\./g, '…')
-          .replace(/'/g, '\'')
-      .replace(/'/g, '\'');
-  
-  return finalContent;
-}
-
-// ===== CHAPTER NAVIGATION =====
-function loadChapter(index) {
-  if (index < 0 || index >= chapters.length) return;
+async function loadChapter(index, forceRefresh = false) {
+  if (!chapters[index]) return;
   
   const chapter = chapters[index];
-  currentChapterIndex = index;
   
-  // Update content with enhanced animation
-  elements.content.style.opacity = '0';
-  elements.content.style.transform = 'translateY(30px)';
-  
-  setTimeout(() => {
-    const processedContent = processChapterContent(chapter.content);
-    const chapterTitle = cleanChapterTitle(chapter.title);
-    const readingTime = estimateReadingTime(processedContent);
+  try {
+    const content = await loadChapterContent(chapter, forceRefresh);
     
-    elements.content.innerHTML = `
-      <article class="chapter-content fade-in">
-        <header class="chapter-header">
-          <h1>${chapterTitle}</h1>
+    // Create chapter HTML structure
+    const chapterHtml = `
+      <div class="chapter-content fade-in">
+        <div class="chapter-header">
+          <h1>${cleanChapterTitle(chapter.title)}</h1>
           <div class="chapter-meta">
-            <span class="chapter-number">
-              <span class="meta-icon">📖</span>
-              Chapter ${index + 1} of ${chapters.length}
-            </span>
-            <span class="reading-time">
-              <span class="meta-icon">⏱️</span>
-              ${readingTime} min read
-            </span>
+            <span class="chapter-number">${index + 1} of ${chapters.length}</span>
+            <span class="reading-time">${estimateReadingTime(content)} min read</span>
+            ${chapter.section ? `<span class="chapter-section">${chapter.section}</span>` : ''}
           </div>
-        </header>
-        <div class="chapter-body">
-          ${processedContent}
         </div>
-      </article>
+        <div class="chapter-body">
+          ${content}
+        </div>
+      </div>
     `;
     
-    // Animate content in with stagger
-    requestAnimationFrame(() => {
-      elements.content.style.opacity = '1';
-      elements.content.style.transform = 'translateY(0)';
-    });
+    elements.content.innerHTML = chapterHtml;
     
-    // Setup scroll animations for new content
-    setTimeout(() => setupScrollAnimations(), 100);
-    
-    // Update UI
-    updateActiveChapter(chapter.id);
-    updateNavigationButtons();
-    updateProgress();
-    
-    // Track reading
-    markChapterAsRead(chapter.id);
-    
-    // Update URL
+    // Update URL hash
     window.history.replaceState(null, null, `#${chapter.id}`);
     
-    // Smooth scroll to top
-    elements.content.scrollTo({ top: 0, behavior: 'smooth' });
+    // Update active chapter in TOC
+    updateActiveChapter(chapter.id);
     
-    // Apply reading preferences
-    applyReadingPreferences();
+    // Mark as read and update progress
+    markChapterAsRead(chapter.id);
+    updateProgress();
     
-  }, 200);
+    // Scroll to top
+    elements.content.scrollTo(0, 0);
+    
+    // Setup lazy loading for images
+    lazyLoadImages();
+    
+    // Add scroll reveal animations
+    setupScrollAnimations();
+    
+  } catch (error) {
+    console.error('Error loading chapter:', error);
+    elements.content.innerHTML = `
+      <div class="error-message">
+        <h2>Error Loading Chapter</h2>
+        <p>Could not load "${chapter.title}". Please try again.</p>
+      </div>
+    `;
+  }
 }
 
 function estimateReadingTime(content) {
   const wordsPerMinute = 200;
   const textContent = content.replace(/<[^>]*>/g, '');
-  const wordCount = textContent.split(/\s+/).filter(word => word.length > 0).length;
-  return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+  const wordCount = textContent.split(/\s+/).length;
+  return Math.ceil(wordCount / wordsPerMinute);
 }
 
 function navigateToPrevious() {
   if (currentChapterIndex > 0) {
-    loadChapter(currentChapterIndex - 1);
+    currentChapterIndex--;
+    loadChapter(currentChapterIndex);
+    updateNavigationButtons();
   }
 }
 
 function navigateToNext() {
   if (currentChapterIndex < chapters.length - 1) {
-    loadChapter(currentChapterIndex + 1);
+    currentChapterIndex++;
+    loadChapter(currentChapterIndex);
+    updateNavigationButtons();
   }
 }
 
 function updateNavigationButtons() {
   if (elements.prevButton) {
     elements.prevButton.disabled = currentChapterIndex === 0;
+    if (currentChapterIndex > 0) {
+      const prevChapter = chapters[currentChapterIndex - 1];
+      elements.prevButton.title = `Previous: ${cleanChapterTitle(prevChapter.title)}`;
+    }
   }
   
   if (elements.nextButton) {
     elements.nextButton.disabled = currentChapterIndex === chapters.length - 1;
+    if (currentChapterIndex < chapters.length - 1) {
+      const nextChapter = chapters[currentChapterIndex + 1];
+      elements.nextButton.title = `Next: ${cleanChapterTitle(nextChapter.title)}`;
+    }
   }
 }
 
 function updateActiveChapter(chapterId) {
-  const tocLinks = elements.toc?.querySelectorAll('a');
-  tocLinks?.forEach(link => {
-    if (link.dataset.id === chapterId) {
-      link.classList.add('active');
-      // Scroll active chapter into view in sidebar
-      link.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    } else {
-      link.classList.remove('active');
-    }
+  // Remove active class from all TOC links
+  elements.toc.querySelectorAll('a').forEach(link => {
+    link.classList.remove('active');
   });
-}
-
-// ===== SEARCH FUNCTIONALITY =====
-function handleSearch(e) {
-  const searchTerm = e.target.value.toLowerCase();
-  const tocLinks = elements.toc?.querySelectorAll('li');
   
-  tocLinks?.forEach(li => {
-    const link = li.querySelector('a');
-    const title = link.textContent.toLowerCase();
+  // Add active class to current chapter
+  const activeLink = elements.toc.querySelector(`a[data-id="${chapterId}"]`);
+  if (activeLink) {
+    activeLink.classList.add('active');
+  }
+}
+
+function handleSearch(e) {
+  const searchTerm = e.target.value.toLowerCase().trim();
+  const tocLinks = elements.toc.querySelectorAll('a');
+  
+  tocLinks.forEach(link => {
+    const chapterTitle = link.textContent.toLowerCase();
+    const listItem = link.parentElement;
     
-    if (title.includes(searchTerm)) {
-      li.style.display = 'block';
-      li.classList.add('slide-in-left');
+    if (!searchTerm || chapterTitle.includes(searchTerm)) {
+      listItem.style.display = '';
     } else {
-      li.style.display = 'none';
-      li.classList.remove('slide-in-left');
+      listItem.style.display = 'none';
     }
+  });
+  
+  // Show/hide section headers based on whether they have visible chapters
+  const sectionHeaders = elements.toc.querySelectorAll('.section-header');
+  sectionHeaders.forEach(header => {
+    let hasVisibleChapters = false;
+    let nextElement = header.nextElementSibling;
+    
+    while (nextElement && !nextElement.classList.contains('section-header')) {
+      if (nextElement.style.display !== 'none') {
+        hasVisibleChapters = true;
+        break;
+      }
+      nextElement = nextElement.nextElementSibling;
+    }
+    
+    header.style.display = hasVisibleChapters ? '' : 'none';
   });
 }
 
-// ===== THEME MANAGEMENT =====
 function initializeTheme() {
   const savedTheme = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
@@ -406,55 +466,58 @@ function initializeTheme() {
 
 function toggleTheme() {
   const currentTheme = document.documentElement.getAttribute('data-theme');
-  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
   
   document.documentElement.setAttribute('data-theme', newTheme);
   localStorage.setItem('theme', newTheme);
   readingPreferences.theme = newTheme;
   updateThemeIcon(newTheme);
-  saveReadingPreferences();
 }
 
 function updateThemeIcon(theme) {
-  const icon = elements.themeToggle?.querySelector('.theme-icon');
-  if (icon) {
-    icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+  const themeIcon = elements.themeToggle?.querySelector('.theme-icon');
+  if (themeIcon) {
+    themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
   }
 }
 
-// ===== READING PROGRESS =====
 function updateProgress() {
   const totalChapters = chapters.length;
-  const completedChapters = readingStats.chaptersRead.size;
-  const progressPercentage = Math.round((completedChapters / totalChapters) * 100);
+  const readChapters = readingStats.chaptersRead.size;
+  const percentage = totalChapters > 0 ? (readChapters / totalChapters) * 100 : 0;
   
   if (elements.progressFill) {
-    elements.progressFill.style.width = `${progressPercentage}%`;
+    elements.progressFill.style.width = `${percentage}%`;
   }
   
   if (elements.progressText) {
-    elements.progressText.textContent = `${progressPercentage}% Complete`;
+    elements.progressText.textContent = `${Math.round(percentage)}% Complete`;
   }
   
   if (elements.chaptersRead) {
-    elements.chaptersRead.textContent = completedChapters;
+    elements.chaptersRead.textContent = readChapters;
   }
+  
+  // Save progress
+  saveReadingProgress();
 }
 
 function markChapterAsRead(chapterId) {
-  readingStats.chaptersRead.add(chapterId);
-  saveReadingProgress();
-  updateProgress();
-  
-  // Update TOC visual with animation
-  const tocLink = elements.toc?.querySelector(`[data-id="${chapterId}"]`);
-  if (tocLink && !tocLink.classList.contains('completed')) {
-    tocLink.classList.add('completed');
-    // Add a subtle animation
-    tocLink.style.animation = 'completionPulse 0.6s ease-out';
+  if (!readingStats.chaptersRead.has(chapterId)) {
+    readingStats.chaptersRead.add(chapterId);
+    
+    // Update TOC to show completion
+    const tocLink = elements.toc.querySelector(`a[data-id="${chapterId}"]`);
+    if (tocLink) {
+      tocLink.classList.add('completed');
+    }
+    
+    // Add completion animation
     setTimeout(() => {
-      tocLink.style.animation = '';
-    }, 600);
+      if (tocLink) {
+        tocLink.style.animation = 'completionPulse 0.6s ease-out';
+      }
+    }, 500);
   }
 }
 
@@ -462,30 +525,32 @@ function saveReadingProgress() {
   const progressData = {
     chaptersRead: Array.from(readingStats.chaptersRead),
     totalReadingTime: readingStats.totalReadingTime,
-    lastUpdated: Date.now()
+    lastChapter: currentChapterIndex,
+    timestamp: Date.now()
   };
   
-  localStorage.setItem('reading-progress', JSON.stringify(progressData));
+  localStorage.setItem('readingProgress', JSON.stringify(progressData));
 }
 
 function loadReadingProgress() {
-  const saved = localStorage.getItem('reading-progress');
+  const saved = localStorage.getItem('readingProgress');
   if (saved) {
     try {
       const data = JSON.parse(saved);
       readingStats.chaptersRead = new Set(data.chaptersRead || []);
       readingStats.totalReadingTime = data.totalReadingTime || 0;
-      updateProgress();
+      
+      // Update display
+      updateReadingTimeDisplay();
     } catch (error) {
-      console.error('Failed to load reading progress:', error);
+      console.error('Error loading reading progress:', error);
     }
   }
 }
 
-// ===== READING TIMER =====
 function startReadingTimer() {
   setInterval(() => {
-    readingStats.totalReadingTime += 1;
+    readingStats.totalReadingTime += 1; // seconds
     updateReadingTimeDisplay();
     
     // Save progress every minute
@@ -508,95 +573,82 @@ function updateReadingTimeDisplay() {
   }
 }
 
-// ===== ENHANCED READING MODE =====
 function setupReadingModeEnhancements() {
-  // Add CSS for completion animation
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes completionPulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); background-color: rgba(16, 185, 129, 0.1); }
-      100% { transform: scale(1); }
-    }
-  `;
-  document.head.appendChild(style);
+  // Add reading mode specific styles and functionality
+  if (elements.readingMode) {
+    elements.readingMode.addEventListener('click', (e) => {
+      if (e.target === elements.readingMode) {
+        closeReadingMode();
+      }
+    });
+  }
 }
 
 function toggleReadingMode() {
-  if (elements.readingMode) {
+  if (!elements.readingMode || !elements.readingContent) return;
+  
+  // Copy current chapter content to reading mode
+  const currentContent = elements.content.querySelector('.chapter-content');
+  if (currentContent) {
+    elements.readingContent.innerHTML = currentContent.outerHTML;
     elements.readingMode.classList.add('active');
-    
-    // Copy current chapter content with enhanced formatting
-    const currentContent = elements.content.querySelector('.chapter-content');
-    if (currentContent && elements.readingContent) {
-      elements.readingContent.innerHTML = currentContent.innerHTML;
-      
-      // Apply reading mode specific enhancements
-      applyReadingModeEnhancements();
-    }
-    
     document.body.style.overflow = 'hidden';
+    
+    // Apply reading mode enhancements
+    applyReadingModeEnhancements();
   }
 }
 
 function applyReadingModeEnhancements() {
-  if (!elements.readingContent) return;
+  const readingContent = elements.readingContent;
+  if (!readingContent) return;
   
-  // Add reading mode class for specific styling
-  elements.readingContent.classList.add('reading-mode-enhanced');
+  // Add enhanced typography classes
+  readingContent.classList.add('reading-mode-enhanced');
   
-  // Enhance typography for reading mode
-  const style = elements.readingContent.style;
-  style.fontSize = '1.1em';
-  style.lineHeight = '1.7';
-  style.maxWidth = '65ch';
-  style.margin = '0 auto';
+  // Focus on the content
+  readingContent.scrollTo(0, 0);
+  readingContent.focus();
 }
 
 function closeReadingMode() {
   if (elements.readingMode) {
     elements.readingMode.classList.remove('active');
     document.body.style.overflow = '';
-    
-    // Clean up reading mode enhancements
-    if (elements.readingContent) {
-      elements.readingContent.classList.remove('reading-mode-enhanced');
-      elements.readingContent.style.cssText = '';
-    }
   }
 }
 
-// ===== READING PREFERENCES =====
 function loadReadingPreferences() {
-  const saved = localStorage.getItem('reading-preferences');
+  const saved = localStorage.getItem('readingPreferences');
   if (saved) {
     try {
       readingPreferences = { ...readingPreferences, ...JSON.parse(saved) };
       applyReadingPreferences();
     } catch (error) {
-      console.error('Failed to load reading preferences:', error);
+      console.error('Error loading reading preferences:', error);
     }
   }
 }
 
 function saveReadingPreferences() {
-  localStorage.setItem('reading-preferences', JSON.stringify(readingPreferences));
+  localStorage.setItem('readingPreferences', JSON.stringify(readingPreferences));
 }
 
 function applyReadingPreferences() {
   const contentArea = elements.content;
   if (!contentArea) return;
   
-  // Apply font size preference
-  contentArea.classList.remove('font-small', 'font-large');
+  // Remove existing preference classes
+  contentArea.classList.remove('font-small', 'font-large', 'line-height-tight', 'line-height-loose');
+  
+  // Apply font size
   if (readingPreferences.fontSize === 'small') {
     contentArea.classList.add('font-small');
   } else if (readingPreferences.fontSize === 'large') {
     contentArea.classList.add('font-large');
   }
   
-  // Apply line height preference
-  contentArea.classList.remove('line-height-tight', 'line-height-loose');
+  // Apply line height
   if (readingPreferences.lineHeight === 'tight') {
     contentArea.classList.add('line-height-tight');
   } else if (readingPreferences.lineHeight === 'loose') {
@@ -604,102 +656,80 @@ function applyReadingPreferences() {
   }
 }
 
-// ===== SCROLL ANIMATIONS =====
 function setupScrollAnimations() {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
       }
     });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  });
+  }, observerOptions);
   
-  // Observe all content elements with staggered delays
-  const elementsToAnimate = document.querySelectorAll('.chapter-body h1, .chapter-body h2, .chapter-body h3, .chapter-body h4, .chapter-body p, .chapter-body blockquote, .chapter-body li');
-  elementsToAnimate.forEach((el, index) => {
+  // Observe elements for animation
+  const animateElements = elements.content.querySelectorAll('h2, h3, p, blockquote, .exercise-section');
+  animateElements.forEach(el => {
     el.classList.add('reveal');
-    el.style.animationDelay = `${index * 50}ms`;
     observer.observe(el);
   });
 }
 
 function handleScroll() {
-  // Add scroll-based enhancements
-  const scrollTop = elements.content.scrollTop;
-  const scrollHeight = elements.content.scrollHeight - elements.content.clientHeight;
-  const scrollPercentage = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+  const scrolled = elements.content.scrollTop;
+  const maxScroll = elements.content.scrollHeight - elements.content.clientHeight;
+  const percentage = maxScroll > 0 ? (scrolled / maxScroll) * 100 : 0;
   
-  // Update reading progress indicator
-  updateScrollProgress(scrollPercentage);
-  
-  // Mark chapter as read when scrolled 80% through
-  if (scrollPercentage > 80 && chapters[currentChapterIndex]) {
-    markChapterAsRead(chapters[currentChapterIndex].id);
-  }
+  updateScrollProgress(percentage);
 }
 
 function updateScrollProgress(percentage) {
-  // Could add a reading progress indicator here if desired
-  // For now, we'll use this for chapter completion tracking
+  // Update reading progress indicator if needed
+  // This could be used for within-chapter progress
 }
 
-// ===== MOBILE NAVIGATION =====
 function toggleSidebar() {
-  const sidebar = elements.sidebar;
-  const overlay = document.querySelector('.sidebar-overlay');
-  const menuToggle = elements.menuToggle;
+  if (!elements.sidebar) return;
   
-  if (sidebar && overlay && menuToggle) {
-    const isOpen = sidebar.classList.contains('open');
-    
-    if (isOpen) {
-      closeSidebar();
-    } else {
-      openSidebar();
-    }
+  const isOpen = elements.sidebar.classList.contains('open');
+  
+  if (isOpen) {
+    closeSidebar();
+  } else {
+    openSidebar();
   }
 }
 
 function openSidebar() {
-  const sidebar = elements.sidebar;
-  const overlay = document.querySelector('.sidebar-overlay');
-  const menuToggle = elements.menuToggle;
-  
-  if (sidebar && overlay && menuToggle) {
-    sidebar.classList.add('open');
-    overlay.classList.add('active');
-    menuToggle.classList.add('active');
-  }
+  elements.sidebar?.classList.add('open');
+  document.querySelector('.sidebar-overlay')?.classList.add('active');
+  elements.menuToggle?.classList.add('active');
 }
 
 function closeSidebar() {
-  const sidebar = elements.sidebar;
-  const overlay = document.querySelector('.sidebar-overlay');
-  const menuToggle = elements.menuToggle;
-  
-  if (sidebar && overlay && menuToggle) {
-    sidebar.classList.remove('open');
-    overlay.classList.remove('active');
-    menuToggle.classList.remove('active');
-  }
+  elements.sidebar?.classList.remove('open');
+  document.querySelector('.sidebar-overlay')?.classList.remove('active');
+  elements.menuToggle?.classList.remove('active');
 }
 
 function handleResize() {
-  // Close sidebar on desktop
+  // Close sidebar on larger screens
   if (window.innerWidth > 1024) {
     closeSidebar();
   }
 }
 
-// ===== EVENT HANDLERS =====
 function handleTocClick(e) {
-  if (e.target.tagName === 'A') {
-    e.preventDefault();
+  e.preventDefault();
+  
+  if (e.target.tagName === 'A' && e.target.dataset.index) {
     const index = parseInt(e.target.dataset.index);
+    currentChapterIndex = index;
     loadChapter(index);
+    updateNavigationButtons();
     
     // Close sidebar on mobile
     if (window.innerWidth <= 1024) {
@@ -709,15 +739,19 @@ function handleTocClick(e) {
 }
 
 function handleHashChange() {
-  const chapterId = window.location.hash.substring(1);
-  const index = chapters.findIndex(chapter => chapter.id === chapterId);
-  if (index >= 0) {
-    loadChapter(index);
+  const hash = window.location.hash.substring(1);
+  if (hash) {
+    const chapterIndex = chapters.findIndex(ch => ch.id === hash);
+    if (chapterIndex >= 0 && chapterIndex !== currentChapterIndex) {
+      currentChapterIndex = chapterIndex;
+      loadChapter(chapterIndex);
+      updateNavigationButtons();
+    }
   }
 }
 
 function handleKeyboardShortcuts(e) {
-  // Only handle shortcuts when not typing in inputs
+  // Don't trigger shortcuts when typing in inputs
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
     return;
   }
@@ -731,16 +765,6 @@ function handleKeyboardShortcuts(e) {
       e.preventDefault();
       navigateToNext();
       break;
-    case 'f':
-    case 'F':
-      e.preventDefault();
-      toggleReadingMode();
-      break;
-    case 'Escape':
-      e.preventDefault();
-      closeReadingMode();
-      closeSidebar();
-      break;
     case 't':
     case 'T':
       e.preventDefault();
@@ -751,29 +775,44 @@ function handleKeyboardShortcuts(e) {
       e.preventDefault();
       toggleSidebar();
       break;
-    case ' ':
-      // Space bar for page down
-      if (!elements.readingMode.classList.contains('active')) {
+    case 'f':
+    case 'F':
+      e.preventDefault();
+      toggleReadingMode();
+      break;
+    case 'Escape':
+      e.preventDefault();
+      closeReadingMode();
+      closeSidebar();
+      break;
+    case '/':
+      e.preventDefault();
+      elements.searchBar?.focus();
+      break;
+    case 'r':
+    case 'R':
+      if (e.ctrlKey || e.metaKey) {
         e.preventDefault();
-        elements.content.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' });
+        refreshCurrentChapter();
       }
       break;
   }
 }
 
 function updateReadingProgress() {
-  // Update reading progress based on scroll position
-  const scrollTop = elements.content.scrollTop;
-  const scrollHeight = elements.content.scrollHeight - elements.content.clientHeight;
-  const scrollPercentage = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+  // This function can be used to track reading progress within a chapter
+  // For now, we'll just mark the chapter as read when scrolled to bottom
+  const scrolled = elements.content.scrollTop;
+  const maxScroll = elements.content.scrollHeight - elements.content.clientHeight;
   
-  // Mark chapter as read when scrolled 80% through
-  if (scrollPercentage > 80 && chapters[currentChapterIndex]) {
-    markChapterAsRead(chapters[currentChapterIndex].id);
+  if (maxScroll > 0 && scrolled / maxScroll > 0.9) {
+    const currentChapter = chapters[currentChapterIndex];
+    if (currentChapter) {
+      markChapterAsRead(currentChapter.id);
+    }
   }
 }
 
-// ===== UTILITY FUNCTIONS =====
 function debounce(func, wait) {
   let timeout;
   return function executedFunction(...args) {
@@ -786,19 +825,14 @@ function debounce(func, wait) {
   };
 }
 
-// Debounced search
-elements.searchBar?.addEventListener('input', debounce(handleSearch, 300));
-
-// ===== PERFORMANCE OPTIMIZATIONS =====
-// Lazy load images if any
 function lazyLoadImages() {
-  const images = document.querySelectorAll('img[data-src]');
+  const images = elements.content.querySelectorAll('img[data-src]');
   const imageObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const img = entry.target;
         img.src = img.dataset.src;
-        img.classList.remove('lazy');
+        img.removeAttribute('data-src');
         imageObserver.unobserve(img);
       }
     });
@@ -807,5 +841,114 @@ function lazyLoadImages() {
   images.forEach(img => imageObserver.observe(img));
 }
 
-// Initialize lazy loading
-document.addEventListener('DOMContentLoaded', lazyLoadImages); 
+// ===== CONTENT REFRESH FUNCTIONS =====
+function handleRefreshClick() {
+  const refreshButton = document.getElementById('refresh-content');
+  if (refreshButton) {
+    refreshButton.classList.add('refreshing');
+    
+    // Remove animation after refresh completes
+    setTimeout(() => {
+      refreshButton.classList.remove('refreshing');
+    }, 1000);
+  }
+  
+  refreshCurrentChapter();
+}
+
+function refreshCurrentChapter() {
+  console.log('Refreshing current chapter...');
+  
+  // Clear the current chapter's cached content
+  if (chapters[currentChapterIndex]) {
+    chapters[currentChapterIndex].content = null;
+  }
+  
+  // Show loading state
+  elements.content.innerHTML = `
+    <div class="loading-state">
+      <h2>Refreshing chapter...</h2>
+      <p>Loading latest content from files.</p>
+    </div>
+  `;
+  
+  // Reload the chapter with force refresh
+  loadChapter(currentChapterIndex, true);
+}
+
+function refreshAllChapters() {
+  console.log('Clearing all cached content...');
+  
+  // Clear all cached content
+  chapters.forEach(chapter => {
+    chapter.content = null;
+  });
+  
+  // Reload current chapter
+  refreshCurrentChapter();
+}
+
+function setupSidebarResizing() {
+  const sidebar = elements.sidebar;
+  const resizer = document.querySelector('.sidebar-resizer');
+  const mainContent = document.querySelector('.main-content');
+  
+  if (!sidebar || !resizer || !mainContent) return;
+  
+  let isResizing = false;
+  let startX = 0;
+  let startWidth = 0;
+  
+  resizer.addEventListener('mousedown', (e) => {
+    isResizing = true;
+    startX = e.clientX;
+    startWidth = parseInt(document.defaultView.getComputedStyle(sidebar).width, 10);
+    
+    sidebar.classList.add('resizing');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    
+    e.preventDefault();
+  });
+  
+  document.addEventListener('mousemove', (e) => {
+    if (!isResizing) return;
+    
+    const width = startWidth + e.clientX - startX;
+    const minWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-min-width'));
+    const maxWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-max-width'));
+    
+    const clampedWidth = Math.max(minWidth, Math.min(maxWidth, width));
+    
+    sidebar.style.width = `${clampedWidth}px`;
+    mainContent.style.marginLeft = `${clampedWidth}px`;
+    
+    // Update CSS custom property
+    document.documentElement.style.setProperty('--sidebar-width', `${clampedWidth}px`);
+  });
+  
+  document.addEventListener('mouseup', () => {
+    if (!isResizing) return;
+    
+    isResizing = false;
+    sidebar.classList.remove('resizing');
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+    
+    // Save the sidebar width to localStorage
+    const currentWidth = sidebar.style.width;
+    if (currentWidth) {
+      localStorage.setItem('sidebarWidth', currentWidth);
+    }
+  });
+  
+  // Restore saved width on load
+  const savedWidth = localStorage.getItem('sidebarWidth');
+  if (savedWidth) {
+    sidebar.style.width = savedWidth;
+    mainContent.style.marginLeft = savedWidth;
+    document.documentElement.style.setProperty('--sidebar-width', savedWidth);
+  }
+}
+
+ 

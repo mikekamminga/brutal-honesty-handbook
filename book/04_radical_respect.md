@@ -19,6 +19,7 @@ This is not the time for sarcasm, passive-aggression, or witty jabs. Those are t
 *   **Instead of:** "Well, it must be nice to have so much free time during the workday."
 *   **Try:** "I'm feeling overwhelmed with my workload and I've noticed I'm handling most of our shared tasks. I need us to find a way to rebalance this."
 
+
 **2. Be Direct, Not Dismissive.**
 Don't minimize their feelings or your own. Weak prefaces like "no offense, but..." or "don't take this the wrong way" are warnings that you're about to say something offensive without taking responsibility for it. Own your message.
 

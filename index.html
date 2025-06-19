@@ -14,6 +14,9 @@
     
     <link rel="stylesheet" href="style.css">
     
+    <!-- Marked.js for markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
+    
     <!-- Meta tags for better sharing -->
     <meta name="description" content="A practical guide to building honest, genuine relationships through the art of brutal honesty.">
     <meta name="author" content="The Handbook of Brutal Honesty">
@@ -33,6 +36,9 @@
             <div class="nav-subtitle">A Guide to Authentic Living</div>
         </div>
         <div class="nav-controls">
+            <button class="refresh-toggle" id="refresh-content" title="Refresh Content (Ctrl+R)">
+                <span class="refresh-icon">🔄</span>
+            </button>
             <button class="theme-toggle" title="Toggle Theme (T)">
                 <span class="theme-icon">🌙</span>
             </button>
@@ -54,14 +60,6 @@
                     <input type="search" id="search-bar" placeholder="Search chapters..." autocomplete="off">
                     <span class="search-icon">🔍</span>
                 </div>
-                
-                <!-- Reading Progress -->
-                <div class="reading-progress">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill"></div>
-                    </div>
-                    <div class="progress-text" id="progress-text">0% Complete</div>
-                </div>
             </div>
 
             <!-- Chapter Navigation -->
@@ -71,6 +69,14 @@
 
             <!-- Sidebar Footer with Stats -->
             <div class="sidebar-footer">
+                <!-- Reading Progress -->
+                <div class="reading-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-text" id="progress-text">0% Complete</div>
+                </div>
+                
                 <div class="reading-stats">
                     <div class="stat">
                         <span class="stat-number" id="chapters-read">0</span>
@@ -82,6 +88,9 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Resize Handle -->
+            <div class="sidebar-resizer"></div>
         </aside>
 
         <!-- Main Content Area -->

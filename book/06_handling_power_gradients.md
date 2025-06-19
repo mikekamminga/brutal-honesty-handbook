@@ -1,4 +1,4 @@
-## CHAPTER 6: HANDLING POWER GRADIENTS & CULTURAL NUANCE
+## CHAPTER 6: HANDLING POWER GRADIENTS
 
 The principles of brutal honesty are not applied in a vacuum. The world is a complex web of hierarchies, power imbalances, and cultural contexts. Applying direct honesty without acknowledging this reality is not just naive; it can be ineffective or even dangerous. This chapter is about calibrating your honesty to the environment you are in.
 

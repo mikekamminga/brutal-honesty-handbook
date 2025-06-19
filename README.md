@@ -171,4 +171,70 @@ See [instructions/issues/](./instructions/issues/) for detailed development task
 
 ---
 
-*Built with ❤️ for readers who appreciate brutal honesty and beautiful typography.* 
+*Built with ❤️ for readers who appreciate brutal honesty and beautiful typography.*
+
+## Browser Reader
+
+This project includes a sophisticated browser-based reader that provides an excellent reading experience for the book content.
+
+### Features
+
+- **Direct Markdown Reading**: The reader now directly loads content from the `/book` folder markdown files instead of requiring a separate JSON file
+- **Automatic Structure Detection**: Uses `book/index.md` to understand the book's structure and sections
+- **Collapsible Exercises**: All exercises are presented in collapsible sections for better reading flow
+- **Enhanced Tables**: Markdown tables are automatically converted to beautifully styled HTML tables
+- **Section Organization**: Chapters are organized by sections (Mindset, Skillset, Field Guide, Practice)
+- **Reading Progress Tracking**: Tracks which chapters you've read and total reading time
+- **Search Functionality**: Search through all chapters
+- **Reading Mode**: Distraction-free reading experience
+- **Theme Toggle**: Light and dark themes
+- **Responsive Design**: Works great on desktop, tablet, and mobile
+- **Keyboard Shortcuts**: Navigate with arrow keys, toggle theme with 'T', etc.
+
+### How It Works
+
+1. **Content Source**: All content is stored as markdown files in the `/book` directory
+2. **Structure Definition**: The `book/index.md` file defines the book structure with sections and chapter order
+3. **Dynamic Loading**: Chapters are loaded on-demand when selected
+4. **Markdown Processing**: Built-in markdown parser handles:
+   - Headers, paragraphs, lists
+   - Tables with proper styling
+   - Blockquotes with enhanced design
+   - Collapsible `<details>` sections for exercises
+   - Bold, italic, and code formatting
+
+### Usage
+
+1. Simply open `index.html` in a modern web browser
+2. The reader will automatically load the book structure from `/book/index.md`
+3. Click any chapter in the sidebar to read it
+4. Use the navigation buttons or arrow keys to move between chapters
+5. Use the search bar to find specific content
+6. Toggle reading mode with the floating action button or 'F' key
+
+### Development
+
+The system is fully self-contained and doesn't require any build process:
+
+- `index.html` - Main application structure
+- `style.css` - Complete styling including responsive design
+- `script.js` - Full application logic with markdown parsing
+- `book/` - All book content as markdown files
+- `book/index.md` - Book structure definition
+
+### Adding New Content
+
+1. Add new markdown files to the `/book` directory
+2. Update `book/index.md` to include the new chapters in the table of contents
+3. The reader will automatically detect and load the new content
+
+### Keyboard Shortcuts
+
+- `←/→` - Navigate between chapters
+- `T` - Toggle theme
+- `M` - Toggle sidebar (mobile)
+- `F` - Toggle reading mode
+- `Esc` - Close overlays
+- `/` - Focus search bar
+
+This system provides a maintainable, elegant way to present the book content while keeping the source files in clean, editable markdown format. 

@@ -1,4 +1,4 @@
-## CHAPTER 6: TOOLS FOR TOUGH CONVERSATIONS
+## CHAPTER 5: TOOLS FOR TOUGH CONVERSATIONS
 
 Knowing you *should* have a tough conversation is one thing. Knowing *how* to begin is something else entirely. This chapter provides a toolkit—a set of simple, powerful phrases and frameworks to help you navigate these moments with more grace and less anxiety.
 
