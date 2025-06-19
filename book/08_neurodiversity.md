@@ -35,21 +35,9 @@ Your honesty can serve as a powerful tool in community and advocacy spaces. Clea
 
 While workplaces often pose unique challenges, your honesty can also be uniquely valuable. Clearly communicate your style upfront to colleagues, and establish team agreements, such as:
 
-* **Color-Tagging Messages**:
-
-  * **\[Green]**: Information sharing. "\[Green] The task is completed."
-  * **\[Yellow]**: Feedback or request. "\[Yellow] Can we discuss your proposal?"
-  * **\[Red]**: Urgent or critical issues. "\[Red] This needs immediate attention."
-
 * **Establish Team Signals**: Agree on "blunt-mode" during specific meetings to foster open communication without fear of offense.
 
 * **Request Accommodations**: Clearly request what helps your communication: "Please send meeting agendas ahead of time. It helps me process the information."
-
-<!-- **Color-Tag Your Messages**
-In digital communication, you can use a simple system to signal intent:
-*   **[Green]**: For information sharing. "🟢 The report is done."
-*   **[Yellow]**: For feedback or a request. "🟡 I have some feedback on the design. Is now a good time?"
-*   **[Red]**: For urgent or critical issues. "🔴 The server is down. We need to address this immediately." -->
 
 ### Your Authentic Life
 
