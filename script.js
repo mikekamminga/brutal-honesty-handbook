@@ -350,8 +350,11 @@ async function loadChapter(index, forceRefresh = false) {
     markChapterAsRead(chapter.id);
     updateProgress();
     
-    // Scroll to top
-    elements.content.scrollTo(0, 0);
+    // Scroll to top of content
+    const contentWrapper = document.querySelector('.content-wrapper');
+    if (contentWrapper) {
+      contentWrapper.scrollTo({ top: 0, behavior: 'auto' });
+    }
     
     // Setup lazy loading for images
     lazyLoadImages();
@@ -396,17 +399,39 @@ function navigateToNext() {
 function updateNavigationButtons() {
   if (elements.prevButton) {
     elements.prevButton.disabled = currentChapterIndex === 0;
+    
+    // Update previous button content
+    const prevLabel = elements.prevButton.querySelector('.nav-btn-label');
+    const prevTitle = elements.prevButton.querySelector('.nav-btn-title');
+    
     if (currentChapterIndex > 0) {
       const prevChapter = chapters[currentChapterIndex - 1];
-      elements.prevButton.title = `Previous: ${cleanChapterTitle(prevChapter.title)}`;
+      if (prevTitle) {
+        prevTitle.textContent = cleanChapterTitle(prevChapter.title);
+      }
+    } else {
+      if (prevTitle) {
+        prevTitle.textContent = 'No previous chapter';
+      }
     }
   }
   
   if (elements.nextButton) {
     elements.nextButton.disabled = currentChapterIndex === chapters.length - 1;
+    
+    // Update next button content
+    const nextLabel = elements.nextButton.querySelector('.nav-btn-label');
+    const nextTitle = elements.nextButton.querySelector('.nav-btn-title');
+    
     if (currentChapterIndex < chapters.length - 1) {
       const nextChapter = chapters[currentChapterIndex + 1];
-      elements.nextButton.title = `Next: ${cleanChapterTitle(nextChapter.title)}`;
+      if (nextTitle) {
+        nextTitle.textContent = cleanChapterTitle(nextChapter.title);
+      }
+    } else {
+      if (nextTitle) {
+        nextTitle.textContent = 'No next chapter';
+      }
     }
   }
 }
@@ -458,7 +483,7 @@ function handleSearch(e) {
 }
 
 function initializeTheme() {
-  const savedTheme = localStorage.getItem('theme') || 'light';
+  const savedTheme = localStorage.getItem('theme') || 'dark';
   document.documentElement.setAttribute('data-theme', savedTheme);
   readingPreferences.theme = savedTheme;
   updateThemeIcon(savedTheme);

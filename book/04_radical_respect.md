@@ -38,16 +38,6 @@ Readers familiar with Non-Violent Communication (NVC) will recognize a shared sp
 
 Radical Respect is deeply aligned with this. The "I feel X when Y" formulation is a direct application of NVC principles. While this book uses different terminology, the goal is the same: to communicate your truth in a way that minimizes blame and maximizes the chances of being heard, creating connection rather than conflict. If you find the tools in this book helpful, exploring NVC is a highly recommended next step.
 
-### A Note on Cultural Nuance
-
-The idea of "directness" is not universal. In some cultures, particularly those with a more collectivist or hierarchical structure, the direct, unadorned truth-telling described here could be seen as disrespectful, no matter the intention. Radical respect, in these contexts, requires an extra layer of awareness.
-
-*   **Observe First:** Before speaking, observe how feedback is given and received in that specific environment (family, workplace, or community). Are suggestions made more indirectly, perhaps through a trusted third party or in a group setting where ideas are brainstormed collectively?
-*   **Adapt Your Style, Not Your Truth:** You may need to soften your delivery, use more indirect language, or choose a different setting. The goal is not to abandon your honesty, but to translate it into a language that can be heard and respected within that cultural context. The question shifts from "How can I be most direct?" to "How can I be most effective and respectful in this environment?"
-*   **Check for Understanding:** Because meaning can get lost in translation (both linguistic and cultural), it's crucial to check for understanding. "I want to make sure I'm expressing myself clearly. What are you hearing me say?"
-
-Adapting to cultural norms isn't a betrayal of brutal honesty; it's the highest form of it. It's the recognition that true respect means meeting people where they are.
-
 <details>
 <summary>Exercise: The Motive Check-In</summary>
 
