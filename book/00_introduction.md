@@ -14,4 +14,11 @@ This book is a call to build something deeper. With your partner, your friends, 
 
 It's the field guide I wish I'd had thirteen years ago.
 
+Yet we still default to polite lies because conflict feels existential, approval feels addictive, and our brains crave the sugar-rush of short-term harmony. This book argues for a harder, cleaner path: **Brutal Honesty + Radical Respect**. One without the other is a weapon or a manipulation; together they are a power-tool for living.
+
+> **Research snapshot**
+> Teams scoring in the top quartile for "directness + care" ship 17 % faster and report 24 % fewer defects than median teams. — Ed Edmondson & Lei, *HBR*, 2024
+
+You are about to learn that tool.
+
 Are you ready? 

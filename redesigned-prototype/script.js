@@ -132,10 +132,26 @@ async function loadBookContent() {
 
 function generateTableOfContents() {
   if (!elements.toc) return;
-  
-  const ul = document.createElement('ul');
-  
+
+  // Clear existing content
+  elements.toc.innerHTML = '';
+
+  const fragment = document.createDocumentFragment();
+  let currentPart = '';
+
   chapters.forEach((chapter, index) => {
+    // Add section header if the part changes
+    if (chapter.part && chapter.part !== currentPart) {
+      currentPart = chapter.part;
+      const h3 = document.createElement('h3');
+      h3.className = 'toc-section-header';
+      h3.textContent = currentPart;
+      fragment.appendChild(h3);
+    }
+
+    const ul = fragment.lastElementChild.tagName === 'UL' ? fragment.lastElementChild : document.createElement('ul');
+    if (ul.parentElement !== fragment) fragment.appendChild(ul);
+    
     const li = document.createElement('li');
     const a = document.createElement('a');
     
@@ -153,7 +169,7 @@ function generateTableOfContents() {
     ul.appendChild(li);
   });
   
-  elements.toc.appendChild(ul);
+  elements.toc.appendChild(fragment);
   
   // Add click listeners
   elements.toc.addEventListener('click', handleTocClick);

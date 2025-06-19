@@ -26,6 +26,12 @@ Because only when everything is on the table can you begin to build something th
 
 To practice brutal honesty, you must first understand what it is not. The lines are finer than you think.
 
+| Not This | But This |
+| :--- | :--- |
+| **Cruelty** seeks to harm | **Brutal honesty** seeks to heal through clarity |
+| **Performative bluntness** feeds ego | **Intentional truth** risks ego to serve the relationship |
+| **Radical Candor** (a mgr. tool) | **Brutal Honesty** (a life tool) crosses every domain |
+
 **Brutal Honesty vs. Cruelty**
 Cruelty seeks to harm; its goal is to inflict pain. Brutal honesty seeks to reveal; its goal is to bring a difficult truth into the light for the benefit of the relationship or the person. The motive is everything. Before you speak, ask yourself: *Am I trying to help, or am I trying to hurt?* If the answer is to help, proceed with care. If it's to hurt, stay silent.
 
@@ -35,7 +41,8 @@ Some people wear their "honesty" as a form of armor. It's a performance, a way t
 **Brutal Honesty vs. Radical Candor**
 Radical Candor is a powerful management concept, typically framed as "caring personally while challenging directly." It's an excellent tool for the workplace. Brutal honesty is a life tool. It applies not just to your direct reports, but to your spouse, your best friend, your parents, and—most critically—yourself. It's a holistic approach to living in truth.
 
-### Your First Exercise: An Honesty Audit
+<details>
+<summary>Your First Exercise: An Honesty Audit</summary>
 
 Let's start with gentle awareness. You can't change a pattern you don't see.
 
@@ -47,5 +54,7 @@ For each moment, consider:
 3.  What might a brutally honest but respectful alternative have looked like?
 
 This isn't about generating regret. It's about looking at your own patterns of avoidance with curiosity. No one is immune. The goal isn't perfection. The goal is awareness.
+
+</details>
 
 Honesty is a muscle. This book is your gym. Let's begin the workout. 
