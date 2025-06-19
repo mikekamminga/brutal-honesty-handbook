@@ -2,7 +2,7 @@
 
 A child looks at her grandmother, whom she hasn't seen in a year. "Wow, you got bigger," she says, with the simple clarity of a child who speaks only what she sees. The mother gasps, rushes to apologize, and later whispers to her daughter, "You can't say that. It's not polite." The lesson is filed away: *Don't say what you see. Lie to be kind.*
 
-A friend proudly shows you their new apartment. You step inside and your heart sinks. The colors clash, the layout is awkward, it feels cramped. "What do you think?" they ask, eyes shining with excitement. "It has so much potential!" you reply, forcing a smile. You leave feeling like a phony, a small crack forming in the foundation of your friendship.
+A friend proudly shows you their new apartment. You step inside and your heart sinks. The colors clash, the layout is awkward, it feels cramped. "What do you think?" they ask, eyes shining with excitement. "It has so much potential!" you reply, forcing a smile. You leave feeling like a phoney, a small crack forming in the foundation of your friendship.
 
 Your boss announces a bold new strategy that you know, from your experience on the front lines, is destined to fail. You look around the room. Everyone is nodding. So you nod, too. The real conversations happen later, in hushed tones with colleagues over coffee, a conspiracy of agreement against the official plan. Six months later, the project collapses, taking thousands of dollars and hundreds of hours of wasted effort with it.
 
