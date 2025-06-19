@@ -596,8 +596,10 @@ body {
 /* ===== CHAPTER BODY TYPOGRAPHY ===== */
 .chapter-body {
   font-size: var(--text-lg);
-  line-height: var(--leading-relaxed);
+  line-height: 1.7;
   color: var(--text-primary);
+  max-width: 65ch;
+  margin: 0 auto;
 }
 
 /* ===== HEADINGS ===== */
@@ -608,41 +610,101 @@ body {
 .chapter-body h5,
 .chapter-body h6 {
   color: var(--text-primary);
-  font-weight: 600;
-  line-height: 1.3;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-top: 2.5rem;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.025em;
 }
 
-.chapter-body h1 { font-size: 2.5rem; }
-.chapter-body h2 { font-size: 2rem; }
-.chapter-body h3 { font-size: 1.5rem; }
-.chapter-body h4 { font-size: 1.25rem; }
-.chapter-body h5 { font-size: 1.125rem; }
-.chapter-body h6 { font-size: 1rem; }
+.chapter-body h1 { 
+  font-size: 2.25rem; 
+  margin-top: 0;
+}
+.chapter-body h2 { 
+  font-size: 1.875rem;
+  border-bottom: 1px solid var(--border-primary);
+  padding-bottom: 0.5rem;
+}
+.chapter-body h3 { 
+  font-size: 1.5rem;
+  color: var(--accent-primary);
+}
+.chapter-body h4 { 
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.chapter-body h5 { 
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+.chapter-body h6 { 
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+/* Better heading spacing */
+.chapter-body h1:first-child,
+.chapter-body h2:first-child,
+.chapter-body h3:first-child {
+  margin-top: 0;
+}
 
 /* ===== PARAGRAPHS ===== */
 .chapter-body p {
-  margin: 0 0 1.5rem 0;
-  line-height: var(--leading-relaxed);
+  margin: 0 0 1.75rem 0;
+  line-height: 1.7;
+  text-align: left;
 }
 
 .chapter-body p:last-child {
   margin-bottom: 0;
 }
 
+/* First paragraph after headings gets reduced top margin */
+.chapter-body h1 + p,
+.chapter-body h2 + p,
+.chapter-body h3 + p,
+.chapter-body h4 + p,
+.chapter-body h5 + p,
+.chapter-body h6 + p {
+  margin-top: 0;
+}
+
 /* ===== BLOCKQUOTES ===== */
 .chapter-body blockquote {
-  margin: 1.5rem 0;
-  padding: 1rem 1.5rem;
+  margin: 2rem 0;
+  padding: 1.5rem 2rem;
   border-left: 4px solid var(--accent-primary);
-  background: var(--bg-tertiary);
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.05) 0%, 
+    rgba(99, 102, 241, 0.05) 100%);
   color: var(--text-secondary);
   font-style: italic;
+  font-size: 1.05em;
+  border-radius: 0 0.5rem 0.5rem 0;
+  position: relative;
+}
+
+.chapter-body blockquote::before {
+  content: '"';
+  font-size: 3rem;
+  color: var(--accent-primary);
+  opacity: 0.3;
+  position: absolute;
+  top: 0.5rem;
+  left: 0.75rem;
+  font-family: Georgia, serif;
+  line-height: 1;
 }
 
 .chapter-body blockquote p {
   margin: 0 0 1rem 0;
+  position: relative;
+  z-index: 1;
 }
 
 .chapter-body blockquote p:last-child {
@@ -652,21 +714,44 @@ body {
 /* ===== LISTS ===== */
 .chapter-body ul,
 .chapter-body ol {
-  margin: 1.5rem 0;
+  margin: 1.75rem 0;
   padding-left: 2rem;
 }
 
 .chapter-body ul {
-  list-style-type: disc;
+  list-style: none;
+}
+
+.chapter-body ul li {
+  position: relative;
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+  line-height: 1.7;
+}
+
+.chapter-body ul li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--accent-primary);
+  font-weight: bold;
+  font-size: 1.2em;
 }
 
 .chapter-body ol {
   list-style-type: decimal;
+  counter-reset: list-counter;
 }
 
-.chapter-body li {
-  margin: 0.5rem 0;
-  line-height: var(--leading-relaxed);
+.chapter-body ol li {
+  margin: 0.75rem 0;
+  line-height: 1.7;
+  padding-left: 0.5rem;
+}
+
+.chapter-body ol li::marker {
+  color: var(--accent-primary);
+  font-weight: 600;
 }
 
 .chapter-body ul ul,
@@ -674,109 +759,169 @@ body {
 .chapter-body ul ol,
 .chapter-body ol ul {
   margin: 0.5rem 0;
+  font-size: 0.95em;
 }
 
 /* ===== TEXT FORMATTING ===== */
 .chapter-body strong {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
 }
 
 .chapter-body em {
   font-style: italic;
+  color: var(--text-secondary);
 }
 
 .chapter-body code {
   background: var(--bg-tertiary);
   color: var(--accent-primary);
-  padding: 0.2rem 0.4rem;
-  border-radius: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.375rem;
   font-family: var(--font-mono);
-  font-size: 0.9em;
+  font-size: 0.875em;
+  border: 1px solid var(--border-primary);
+  font-weight: 500;
 }
 
 .chapter-body pre {
   background: var(--bg-tertiary);
-  padding: 1rem;
-  border-radius: 0.5rem;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
   overflow-x: auto;
-  margin: 1.5rem 0;
+  margin: 2rem 0;
+  border: 1px solid var(--border-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .chapter-body pre code {
   background: none;
   padding: 0;
+  border: none;
   font-size: 0.875rem;
   color: var(--text-primary);
+  font-weight: 400;
 }
 
 .chapter-body a {
   color: var(--accent-primary);
-  text-decoration: underline;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+  font-weight: 500;
 }
 
 .chapter-body a:hover {
   color: var(--accent-secondary);
+  border-bottom-color: var(--accent-secondary);
 }
 
 .chapter-body img {
   max-width: 100%;
   height: auto;
-  margin: 1.5rem 0;
+  margin: 2rem 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .chapter-body hr {
   border: none;
-  border-top: 1px solid var(--border-primary);
-  margin: 2rem 0;
+  height: 1px;
+  background: linear-gradient(to right, 
+    transparent, 
+    var(--border-primary), 
+    transparent);
+  margin: 3rem 0;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .chapter-body {
-    font-size: var(--text-base);
+    font-size: 1rem;
+    max-width: 100%;
+    padding: 0 0.5rem;
+    line-height: 1.6;
+  }
+
+  .chapter-body h1 {
+    font-size: 1.875rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
   }
 
   .chapter-body h2 {
-    font-size: var(--text-2xl);
-    margin: var(--space-3xl) 0 var(--space-xl) 0;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
   }
 
   .chapter-body h3 {
-    font-size: var(--text-xl);
-    margin: var(--space-2xl) 0 var(--space-lg) 0;
+    font-size: 1.25rem;
+    margin-top: 1.75rem;
+    margin-bottom: 0.875rem;
   }
 
   .chapter-body h4 {
-    font-size: var(--text-lg);
-    margin: var(--space-xl) 0 var(--space-md) 0;
+    font-size: 1.125rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
   }
 
   .chapter-body p {
-    margin-bottom: var(--space-lg);
+    margin-bottom: 1.5rem;
   }
 
   .chapter-body ul,
   .chapter-body ol {
-    margin: var(--space-lg) 0;
-    padding-left: var(--space-xl);
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .chapter-body ul li {
+    padding-left: 1.25rem;
   }
 
   .chapter-body blockquote {
-    margin: var(--space-xl) 0;
-    padding: var(--space-lg);
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+  }
+
+  .chapter-body blockquote::before {
+    font-size: 2rem;
+    top: 0.25rem;
+    left: 0.5rem;
+  }
+
+  .chapter-body pre {
+    padding: 1rem;
+    margin: 1.5rem 0;
+    border-radius: 0.5rem;
+  }
+
+  .chapter-body code {
+    font-size: 0.8125rem;
+    padding: 0.15rem 0.4rem;
+  }
+
+  .chapter-body img {
+    margin: 1.5rem 0;
+  }
+
+  .chapter-body hr {
+    margin: 2rem 0;
   }
 
   .exercise-section {
-    margin: var(--space-lg) 0;
+    margin: 1.5rem 0;
   }
 
   .exercise-section summary {
-    padding: var(--space-md);
+    padding: 0.75rem;
   }
 
   .exercise-content {
-    padding: var(--space-md);
+    padding: 0.75rem;
   }
 }
 
