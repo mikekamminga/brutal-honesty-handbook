@@ -8,7 +8,7 @@
     "dev:node": "npx serve .",
     "dev:php": "php -S localhost:8000",
     "test": "node -e \"console.log('Testing deployment setup...'); fetch('http://localhost:8000/book/index.md').then(r => r.ok ? console.log('✅ Content accessible') : console.log('❌ Content not accessible')).catch(() => console.log('❌ Server not running'))\"",
-    "build": "echo 'No build process needed - static files ready for deployment'",
+    "build": "",
     "deploy": "vercel --prod",
     "deploy:preview": "vercel"
   },
