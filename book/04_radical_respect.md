@@ -31,6 +31,12 @@ This is the hardest part. You are delivering *your* truth, not *the* universal, 
 *   **Instead of:** "You're always late. It's so disrespectful."
 *   **Try:** "When you arrive late, the story I tell myself is that you don't respect my time. Can you help me understand what's happening?"
 
+### Connecting to Non-Violent Communication (NVC)
+
+Readers familiar with Non-Violent Communication (NVC) will recognize a shared spirit here. NVC, developed by Marshall Rosenberg, provides a powerful framework for expressing oneself based on Observations, Feelings, Needs, and Requests (OFNR).
+
+Radical Respect is deeply aligned with this. The "I feel X when Y" formulation is a direct application of NVC principles. While this book uses different terminology, the goal is the same: to communicate your truth in a way that minimizes blame and maximizes the chances of being heard, creating connection rather than conflict. If you find the tools in this book helpful, exploring NVC is a highly recommended next step.
+
 ### A Note on Cultural Nuance
 
 The idea of "directness" is not universal. In some cultures, particularly those with a more collectivist or hierarchical structure, the direct, unadorned truth-telling described here could be seen as disrespectful, no matter the intention. Radical respect, in these contexts, requires an extra layer of awareness.
@@ -41,7 +47,8 @@ The idea of "directness" is not universal. In some cultures, particularly those 
 
 Adapting to cultural norms isn't a betrayal of brutal honesty; it's the highest form of it. It's the recognition that true respect means meeting people where they are.
 
-### The Motive Check-In
+<details>
+<summary>Exercise: The Motive Check-In</summary>
 
 Before you initiate a hard conversation, pause. Close your eyes if you can. Feel your feet on the floor. Take one deep breath. Now, do a motive check-in. Ask yourself:
 
@@ -50,5 +57,7 @@ Before you initiate a hard conversation, pause. Close your eyes if you can. Feel
 *   Or is it to vent, to win, to punish, or to prove that I'm right?
 
 Be honest. If your motive is rooted in anger, ego, or revenge, you are not ready. Your words will be weapons, no matter how carefully you phrase them. Do what you need to do to get to a place of genuine care. Go for a walk. Journal. Talk it through with a neutral third party.
+
+</details>
 
 Enter the conversation from a place of radical respect, or do not enter it at all. 

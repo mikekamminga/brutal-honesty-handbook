@@ -14,19 +14,15 @@ When you can't see the other person's reaction, it's easy to misinterpret their 
 
 *   **Assume Good Intent, But Verify:** When you receive a message that feels blunt or unclear, your first instinct should be to assume the sender meant well but communicated poorly. Before reacting, ask for clarification: "Thanks for this. Just to be sure I'm understanding, are you saying X?"
 
-### The Slack/Teams Cheat Sheet
+### The Slack/Teams Cheat-Sheet
 
 Real-time chat is where context collapses most often. A few simple conventions can prevent a world of hurt.
 
-*   **Use Emojis as Signals:** Acknowledge messages to show they've been seen and are being considered. This prevents the recipient from feeling "ghosted."
-    *   `👀` = "I've seen this and I'm thinking about it."
-    *   `✅` = "This is complete."
-    *   `👍` = "I agree/approve."
-
-*   **Create an "Honesty" Shortcut:** In platforms like Slack, you can create a shortcut to preface difficult feedback. For example, typing `/honest` could post a standard message:
-    > "Heads-up, I'm about to provide some direct feedback. My intention is to be helpful, not critical. Are you ready to discuss?"
-
-*   **Avoid "Typing...":** If you have something complex to say, type it out in a separate text editor and then paste it in. The long, ominous "..." bubble can create unnecessary anxiety for the other person.
+| Tactic | Example | Purpose |
+| :--- | :--- | :--- |
+| **Use Emoji Signals** | `👀` | "I've seen this and I'm thinking about it." Prevents ghosting. |
+| **Create an `/honest` shortcut** | `/honest` | Posts a standard message like: "Direct feedback follows—ready?" |
+| **Avoid the "..."** | Type complex thoughts in a text editor first. | Prevents the anxiety of the long, ominous "typing..." bubble. |
 
 ### Honesty in Video Calls
 

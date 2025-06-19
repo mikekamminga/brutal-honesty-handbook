@@ -29,10 +29,13 @@ You might say to your partner or a close friend:
 
 This is a vulnerable, brave, and loving step. It's an invitation to co-create a new, more resilient kind of relationship.
 
-### The Pillars of an Honest Partnership
+<details>
+<summary>Practice: Pillars of an Honest Partnership</summary>
 
-*   **Boundaries are an honest form of self-love.** Clearly and kindly stating your limits (e.g., "I need some quiet time to decompress after work") is not selfish. It is providing a user manual for how to love and respect you effectively.
-*   **Expressing needs is an honest act of trust.** No one is a mind reader. Saying "I need more help around the house" or "I need to feel more desired by you" is a gift. It replaces your partner's guesswork with a clear path to success.
-*   **Saying "This isn't working for me" is an honest investment in the future.** Whether it's a dynamic in a friendship or a recurring argument—speaking up when something isn't working is the first and only step to fixing it. Silence is a vote for the status quo.
+*   **Boundary Articulation:** Boundaries are an honest form of self-love. Clearly and kindly stating your limits (e.g., "I need some quiet time to decompress after work") is not selfish. It is providing a user manual for how to love and respect you effectively. **Your task: Write down one boundary you need to communicate to a loved one this week.**
+*   **Desire Statements:** Expressing needs is an honest act of trust. No one is a mind reader. Saying "I need more help around the house" or "I need to feel more desired by you" is a gift. It replaces your partner's guesswork with a clear path to success. **Your task: Formulate one 'I need...' statement for a key relationship.**
+*   **Investment Statements:** Saying "This isn't working for me" is an honest investment in the future. Whether it's a dynamic in a friendship or a recurring argument—speaking up when something isn't working is the first and only step to fixing it. Silence is a vote for the status quo. **Your task: Identify one area where silence is costing you and script an opening line to address it.**
+
+</details>
 
 An honest relationship isn't a conflict-free one. It is one where conflict is handled cleanly, ruptures are repaired, and the connection becomes deeper and more resilient than anything built on a foundation of polite lies. 

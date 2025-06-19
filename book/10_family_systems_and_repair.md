@@ -10,22 +10,24 @@ The goal is not to have rupture-free relationships. That's a fantasy. The goal i
 
 Honesty can be especially complex in families with ingrained power dynamics (e.g., parent-child, elder-younger). When speaking truth in these contexts, the principles of Radical Respect are paramount. The goal isn't to win a power struggle but to express your truth while acknowledging the complexity of the relationship. It might require choosing your moments carefully and accepting that change may be slow. Acknowledge your role, for example: "Speaking as your adult child..." before stating your truth.
 
-### How to Circle Back After a Hard Conversation
+> **Field Note: High-Stakes Family Honesty**
+> *[This is an ideal section to add specific, practical advice on navigating notoriously difficult family conversations, such as elder-care decisions, inheritance, and long-standing sibling conflicts. These often involve a complex mix of love, duty, money, and history, requiring a skilled application of these principles.]*
 
-The hours or days after a difficult conversation are critical. Too often, people just let an awkward, heavy silence hang in the air, hoping it will dissipate on its own. It rarely does. The bravest and kindest thing you can do is to be the one to circle back.
+<details>
+<summary>Practice: The Art of Repair</summary>
 
-This can be a simple text or a verbal check-in:
+A relationship that knows how to repair itself is antifragile. Here are two key practices.
+
+**1. Circle Back After a Hard Conversation**
+The hours or days after a difficult conversation are critical. Don't let an awkward, heavy silence hang in the air. Be the one to circle back. This can be a simple text or a verbal check-in:
 > "Hey, still thinking about our conversation. I know it was intense, but I'm really glad we're able to talk about hard things. I love you."
-
 This simple act signals that the conversation didn't break the connection. It says, "We are still a 'we'."
 
-### "I Was Wrong": The Three Most Powerful Words
+**2. Say "I Was Wrong"**
+If you said something unfair or unkind, it's a golden opportunity to build trust. Go back to that person and say, "I've been thinking about what I said yesterday, and I was wrong." It shows humility, self-awareness, and respect.
+*   **Do not add a "but..." at the end.** "I was wrong, but you were being..." negates the entire apology. Just own your part.
 
-Sometimes, in the heat of a difficult conversation, you'll say something that is unfair, untrue, or unkind. This is a golden opportunity to build trust.
-
-Going back to that person and saying, "I've been thinking about what I said yesterday, and I was wrong," is one of the most powerful things you can do. It shows humility, self-awareness, and respect.
-
-Do not add a "but" at the end. "I was wrong, but you were being..." negates the entire apology. Just own your part.
+</details>
 
 ### Rebuilding Trust After a Betrayal
 

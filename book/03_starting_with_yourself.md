@@ -16,6 +16,19 @@ Most of us have a running PR firm in our heads, a spin doctor that works tireles
 
 To be brutally honest with yourself is to fire that PR firm.
 
+### Self-Dialogue Framework
+
+The stories we tell ourselves about our feelings often mask a deeper, simpler need. Use this framework to look underneath.
+
+| Feeling | Surface Story | Likely Deeper Need |
+| :--- | :--- | :--- |
+| Jealousy | "They're ignoring me." | Recognition, security |
+| Irritation | "They're sloppy." | Shared standards |
+| Procrastination | "I'll do it tomorrow." | Safety from failure |
+
+<details>
+<summary>Practice: Internal Honesty Drills</summary>
+
 ### The Mirror Ritual
 
 Here is the first practice. It's simple, but it is not easy.
@@ -39,6 +52,8 @@ If the mirror is too intense, start here. Open a notebook—pen and paper often 
 > "Three truths I haven't wanted to tell myself this year are..."
 
 Do not censor. Do not edit. Do not worry about grammar or punctuation. Just write. Let the pen move. See what emerges from the depths. You might be surprised by what your own mind has been hiding from you.
+
+</details>
 
 This isn't about self-punishment. It's about liberation. You cannot build an honest life on a foundation of self-deceit. Before you can speak the truth to anyone else, you must first learn to stop lying to yourself.
 

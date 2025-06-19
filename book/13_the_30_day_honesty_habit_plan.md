@@ -1,8 +1,12 @@
 ## CHAPTER 13: THE 30-DAY HONESTY HABIT PLAN
 
-This book is a guide to a new practice, and like any practice, it requires consistent effort to build muscle. This 30-day plan is designed to help you do just that. It scaffolds the core exercises from this book into a series of daily, 5- to 20-minute drills.
+This book is a guide to a new practice, and like any practice, it requires consistent effort to build muscle. But living honestly is a marathon, not a sprint. There will be times when you feel tired, when relationships resist your efforts, or when the comfort of a polite lie feels overwhelmingly tempting. Here's how to stay the course.
 
-The goal is not perfection. The goal is practice. If you miss a day, just start again.
+*   **Build Your Circle of Truth-Tellers:** You cannot do this alone. Actively cultivate relationships with people who also value honesty. This is your support network—the people you can debrief with after a hard conversation and who can remind you why you chose this path.
+*   **Embrace Rest and Recovery:** Honesty requires significant emotional energy. Part of the practice is having the self-awareness to know when you need to rest and recharge so you can engage effectively when it truly matters.
+*   **Handle Setbacks with Self-Compassion:** You will have setbacks. Don't use this as evidence that you've failed. See it as data. Get curious: *Why did I avoid that? What fear was triggered?* Treat yourself with the same radical respect you aim to offer others.
+
+This 30-day plan is designed to help you build that muscle. It scaffolds the core exercises from this book into a series of daily, 5- to 20-minute drills. The goal is not perfection. The goal is practice. If you miss a day, just start again.
 
 | Day | Drill (Time) | Confidence-Boost | Chapter Ref |
 |:---:|:---|:---|:---:|
