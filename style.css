@@ -185,6 +185,7 @@ body {
   padding: 0 var(--space-lg);
   z-index: 1000;
   transition: all var(--transition-base);
+  min-height: var(--nav-height);
 }
 
 .nav-brand h1 {
@@ -1112,11 +1113,45 @@ body {
   }
 
   .main-nav {
-    padding: 0 var(--space-lg);
+    padding: 0 var(--space-md);
+    gap: var(--space-sm);
+  }
+
+  .nav-brand {
+    flex: 1;
+    min-width: 0; /* Allow text truncation */
   }
 
   .nav-brand h1 {
-    font-size: var(--text-xl);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+  }
+
+  .nav-controls {
+    flex-shrink: 0;
+    gap: var(--space-xs);
+  }
+
+  /* Reorder nav controls - put menu toggle first (leftmost) */
+  .menu-toggle {
+    order: -1;
+    margin-right: var(--space-sm);
+  }
+
+  /* Improve button visibility in dark mode */
+  .theme-toggle,
+  .refresh-toggle,
+  .menu-toggle span {
+    color: var(--text-primary);
+  }
+
+  .theme-toggle:hover,
+  .refresh-toggle:hover {
+    background: var(--bg-tertiary);
   }
 
   .content-wrapper {
@@ -1165,6 +1200,37 @@ body {
   .chapter-meta {
     flex-direction: column;
     gap: var(--space-sm);
+  }
+}
+
+/* Extra small screens - very narrow mobile devices */
+@media (max-width: 480px) {
+  .main-nav {
+    padding: 0 var(--space-sm);
+  }
+
+  .nav-brand h1 {
+    font-size: var(--text-base);
+    max-width: 200px;
+  }
+
+  .nav-controls {
+    gap: 2px;
+  }
+
+  .theme-toggle,
+  .refresh-toggle {
+    padding: 6px;
+    font-size: var(--text-base);
+  }
+
+  .menu-toggle {
+    margin-right: var(--space-sm);
+  }
+
+  .menu-toggle span {
+    width: 20px;
+    height: 2px;
   }
 }
 
