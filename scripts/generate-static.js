@@ -165,8 +165,8 @@ class StaticSiteGenerator {
       
       const cleanTitle = chapter.title.replace(/^Chapter \d+:\s*/, '');
       const chapterUrl = lang.code === 'en' 
-        ? `/book/${chapter.id}.html`
-        : `/${lang.code}/book/${chapter.id}.html`;
+        ? `/book/${chapter.id}`
+        : `/${lang.code}/book/${chapter.id}`;
 
       html += `<a href="${chapterUrl}" class="nav-item" data-chapter-id="${chapter.id}"><div class="nav-item-content"><div class="nav-item-title">${cleanTitle}</div></div></a>`;
     }
