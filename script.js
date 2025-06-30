@@ -38,10 +38,17 @@ const elements = {
 
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
+  // Check if content is already loaded (static site)
+  const isStatic = !document.querySelector('.loading-state');
+
   initializeApp();
   setupEventListeners();
-  setLanguageFromUrl(); // Set language early
-  loadBookContent();
+  setLanguageFromUrl();
+  
+  if (!isStatic) {
+    loadBookContent();
+  }
+  
   initializeTheme();
   startReadingTimer();
   loadReadingPreferences();
