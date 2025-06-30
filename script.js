@@ -14,6 +14,15 @@ let readingPreferences = {
   theme: 'light'
 };
 
+const getBookPath = () => {
+    if (window.location.pathname.startsWith('/nl')) {
+        return 'book/nl/';
+    }
+    return 'book/';
+};
+
+const bookPath = getBookPath();
+
 // ===== DOM ELEMENTS =====
 const elements = {
   sidebar: document.getElementById('sidebar'),
@@ -109,7 +118,7 @@ function setupEventListeners() {
 async function loadBookContent() {
   try {
     // Load the book structure from index.md
-    const indexResponse = await fetch('book/index.md');
+    const indexResponse = await fetch(`${bookPath}index.md`);
     const indexContent = await indexResponse.text();
     
     // Parse the index to get chapter structure
@@ -178,7 +187,7 @@ async function loadChapterContent(chapter, forceRefresh = false) {
   try {
     // Add cache-busting parameter to prevent browser caching issues
     const timestamp = new Date().getTime();
-    const url = `book/${chapter.filename}?t=${timestamp}`;
+    const url = `${bookPath}${chapter.filename}?t=${timestamp}`;
     
     const response = await fetch(url, {
       cache: 'no-cache',
