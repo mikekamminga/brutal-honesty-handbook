@@ -1,6 +1,7 @@
 // ===== GLOBAL STATE =====
 let chapters = [];
 let currentChapterIndex = 0;
+let currentLanguage = 'en'; // 'en' or 'nl'
 let readingStats = {
   chaptersRead: new Set(),
   totalReadingTime: 0,
@@ -30,13 +31,16 @@ const elements = {
   fab: document.getElementById('reading-mode-toggle'),
   readingMode: document.getElementById('reading-mode'),
   readingContent: document.getElementById('reading-content'),
-  closeReadingMode: document.getElementById('close-reading-mode')
+  closeReadingMode: document.getElementById('close-reading-mode'),
+  langEnLink: document.getElementById('lang-en'),
+  langNlLink: document.getElementById('lang-nl')
 };
 
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
   initializeApp();
   setupEventListeners();
+  setLanguageFromUrl(); // Set language early
   loadBookContent();
   initializeTheme();
   startReadingTimer();
@@ -108,8 +112,11 @@ function setupEventListeners() {
 // ===== BOOK CONTENT LOADING =====
 async function loadBookContent() {
   try {
-    // Load the book structure from index.md
-    const indexResponse = await fetch('book/index.md');
+    const basePath = currentLanguage === 'nl' ? '/book/nl/' : '/book/';
+    const indexResponse = await fetch(`${basePath}index.md`);
+    if (!indexResponse.ok) {
+      throw new Error(`Failed to load index.md for language: ${currentLanguage}`);
+    }
     const indexContent = await indexResponse.text();
     
     // Parse the index to get chapter structure
@@ -176,9 +183,10 @@ async function loadChapterContent(chapter, forceRefresh = false) {
   }
   
   try {
+    const basePath = currentLanguage === 'nl' ? '/book/nl/' : '/book/';
     // Add cache-busting parameter to prevent browser caching issues
     const timestamp = new Date().getTime();
-    const url = `book/${chapter.filename}?t=${timestamp}`;
+    const url = `${basePath}${chapter.filename}?t=${timestamp}`;
     
     const response = await fetch(url, {
       cache: 'no-cache',
@@ -258,8 +266,6 @@ function postProcessMarkdown(html) {
   
   return html;
 }
-
-
 
 function generateTableOfContents() {
   if (!elements.toc) return;
@@ -444,8 +450,6 @@ function updateActiveChapter(chapterId) {
     activeLink.classList.add('active');
   }
 }
-
-
 
 function initializeTheme() {
   const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -938,6 +942,28 @@ function setupSidebarResizing() {
     sidebar.style.width = savedWidth;
     mainContent.style.marginLeft = savedWidth;
     document.documentElement.style.setProperty('--sidebar-width', savedWidth);
+  }
+}
+
+// ===== LANGUAGE HANDLING =====
+function setLanguageFromUrl() {
+  if (window.location.pathname.startsWith('/nl')) {
+    currentLanguage = 'nl';
+    document.documentElement.lang = 'nl';
+  } else {
+    currentLanguage = 'en';
+    document.documentElement.lang = 'en';
+  }
+  updateLanguageSwitcher();
+}
+
+function updateLanguageSwitcher() {
+  if (currentLanguage === 'nl') {
+    elements.langNlLink?.classList.add('active');
+    elements.langEnLink?.classList.remove('active');
+  } else {
+    elements.langEnLink?.classList.add('active');
+    elements.langNlLink?.classList.remove('active');
   }
 }
 
