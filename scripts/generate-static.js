@@ -118,9 +118,9 @@ class StaticSiteGenerator {
     const baseTemplate = this.baseTemplates[lang.code];
 
     const html = baseTemplate
-      .replace('<!-- TOC -->', tocHtml)
-      .replace(/<div class="loading-state">[\s\S]*?<\/div>/, `<div class="chapter-content">${firstChapterContent}</div>`)
-      .replace(/<script src="[^"]*script\.js"[^>]*><\/script>/, this.getStaticScript(0));
+      .replace('<!-- Table of Contents will be generated here by JS -->', tocHtml)
+      .replace(/<div class="loading-state">[\s\S]*?<\/div>/, `<div class="chapter-content" id="content">${firstChapterContent}</div>`)
+      .replace(/<script src="https:\/\/cdn\.jsdelivr\.net\/npm\/marked@9\.1\.6\/marked\.min\.js"><\/script>/, '');
 
     const outputPath = path.join(OUTPUT_DIR, lang.code === 'en' ? '' : lang.code, 'index.html');
     await fs.writeFile(outputPath, html);
@@ -129,18 +129,17 @@ class StaticSiteGenerator {
   async generateChapterPage(chapter, index, lang) {
     const tocHtml = this.generateTableOfContents(lang);
     const chapterContent = await this.loadChapterContent(chapter, lang);
-    // Always use the English base template for individual chapter pages for consistency in structure.
     const baseTemplate = this.baseTemplates.en;
 
     const html = baseTemplate
       .replace(/<title>.*<\/title>/, `<title>${chapter.title} - Brutal Honesty</title>`)
       .replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${this.generateMetaDescription(chapterContent)}">`)
-      .replace('<!-- TOC -->', tocHtml)
-      .replace(/<div class="loading-state">[\s\S]*?<\/div>/, `<div class="chapter-content">${chapterContent}</div>`)
-      .replace(/<script src="[^"]*script\.js"[^>]*><\/script>/, this.getStaticScript(index, lang.code));
+      .replace('<!-- Table of Contents will be generated here by JS -->', tocHtml)
+      .replace(/<div class="loading-state">[\s\S]*?<\/div>/, `<div class="chapter-content" id="content">${chapterContent}</div>`)
+      .replace(/<script src="https:\/\/cdn\.jsdelivr\.net\/npm\/marked@9\.1\.6\/marked\.min\.js"><\/script>/, '');
 
-    const bookPath = lang.code === 'en' ? 'book' : `${lang.code}/book`;
-    const outputPath = path.join(OUTPUT_DIR, bookPath, `${chapter.id}.html`);
+    const bookPath = lang.code === 'en' ? 'book' : `book`;
+    const outputPath = path.join(OUTPUT_DIR, lang.code === 'en' ? '' : lang.code, bookPath, `${chapter.id}.html`);
     await fs.mkdir(path.dirname(outputPath), { recursive: true });
     await fs.writeFile(outputPath, html);
   }
@@ -152,24 +151,29 @@ class StaticSiteGenerator {
   }
 
   generateTableOfContents(lang) {
-    let html = '<ul class="chapter-list">';
+    let html = '';
     let currentSection = null;
     
     for (const chapter of this.chapters[lang.code]) {
       if (chapter.section !== currentSection) {
-        if (currentSection !== null) html += '</ul></li>';
+        if (currentSection !== null) {
+          html += '</div>';
+        }
         currentSection = chapter.section;
-        html += `<li class="section-item"><h4>${currentSection || 'Introduction'}</h4><ul>`;
+        html += `<div class="nav-section"><div class="nav-section-title">${currentSection || 'Introduction'}</div>`;
       }
       
       const cleanTitle = chapter.title.replace(/^Chapter \d+:\s*/, '');
-      const chapterUrl = lang.code === 'en' ? `/book/${chapter.id}.html` : `/${lang.code}/book/${chapter.id}.html`;
+      const chapterUrl = lang.code === 'en' 
+        ? `/book/${chapter.id}.html`
+        : `/${lang.code}/book/${chapter.id}.html`;
 
-      html += `<li><a href="${chapterUrl}" data-chapter-id="${chapter.id}">${cleanTitle}</a></li>`;
+      html += `<a href="${chapterUrl}" class="nav-item" data-chapter-id="${chapter.id}"><div class="nav-item-content"><div class="nav-item-title">${cleanTitle}</div></div></a>`;
     }
     
-    if (currentSection !== null) html += '</ul></li>';
-    html += '</ul>';
+    if (currentSection !== null) {
+      html += '</div>';
+    }
     
     return html;
   }
@@ -180,21 +184,7 @@ class StaticSiteGenerator {
   }
 
   getStaticScript(currentChapterIndex = 0, lang = 'en') {
-    return `
-    <script>
-      // Minimal static-site interactivity
-      (function() {
-        const theme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', theme);
-
-        const lang = "${lang}";
-        const chapterIndex = ${currentChapterIndex};
-        
-        const activeLink = document.querySelector(\`a[data-chapter-id="\${chapterIndex}"]\`);
-        if (activeLink) activeLink.classList.add('active');
-      })();
-    </script>
-    `;
+    return '';
   }
 
   async copyStaticAssets() {
