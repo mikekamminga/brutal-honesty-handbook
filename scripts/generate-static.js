@@ -202,13 +202,22 @@ class StaticSiteGenerator {
     await fs.copyFile('script.js', path.join(OUTPUT_DIR, 'script.js'));
     await fs.copyFile('robots.txt', path.join(OUTPUT_DIR, 'robots.txt'));
     
-    const staticFiles = await fs.readdir(STATIC_DIR);
-    for (const file of staticFiles) {
-      await fs.copyFile(
-        path.join(STATIC_DIR, file), 
-        path.join(OUTPUT_DIR, STATIC_DIR, file)
-      );
+    try {
+        const staticFiles = await fs.readdir(STATIC_DIR);
+        await fs.mkdir(path.join(OUTPUT_DIR, STATIC_DIR), { recursive: true });
+        for (const file of staticFiles) {
+          await fs.copyFile(
+            path.join(STATIC_DIR, file), 
+            path.join(OUTPUT_DIR, STATIC_DIR, file)
+          );
+        }
+    } catch (err) {
+        if (err.code !== 'ENOENT') {
+            throw err;
+        }
+        // 'static' directory doesn't exist, which is fine.
     }
+    
     console.log('  - Copied static assets.');
   }
 }
