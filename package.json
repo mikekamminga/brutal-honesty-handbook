@@ -4,13 +4,17 @@
   "description": "The Original Field Guide for Brutal Honesty - A premium digital reading experience",
   "main": "index.html",
   "scripts": {
-    "dev": "python3 -m http.server 8000",
-    "dev:node": "npx serve .",
+    "dev": "npx serve . -p 8000",
+    "dev:python": "python3 -m http.server 8000",
     "dev:php": "php -S localhost:8000",
-    "test": "node -e \"console.log('Testing deployment setup...'); fetch('http://localhost:8000/book/index.md').then(r => r.ok ? console.log('✅ Content accessible') : console.log('❌ Content not accessible')).catch(() => console.log('❌ Server not running'))\"",
-    "build": "",
-    "deploy": "vercel --prod",
-    "deploy:preview": "vercel"
+    "build": "node scripts/build.js",
+    "build:ssg": "node scripts/generate-static.js",
+    "preview": "npm run build && npx serve dist",
+    "test": "node scripts/test.js",
+    "lint": "npx eslint script.js",
+    "format": "npx prettier --write *.{js,css,html,md}",
+    "deploy": "npm run build && vercel --prod",
+    "deploy:preview": "npm run build && vercel"
   },
   "repository": {
     "type": "git",
@@ -20,9 +24,13 @@
     "book",
     "digital-reading",
     "brutal-honesty",
+    "handbook",
+    "self-improvement",
+    "relationships",
+    "communication",
     "typography",
     "reading-experience",
-    "static-site"
+    "static-site-generator"
   ],
   "author": "Mike Kamminga aka The Cult Leader",
   "license": "MIT",
@@ -31,9 +39,14 @@
   },
   "homepage": "https://github.com/your-username/brutal-honesty-handbook#readme",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "marked": "^9.1.6",
+    "prettier": "^3.0.0",
+    "eslint": "^8.0.0"
+  },
+  "dependencies": {},
   "browserslist": [
     "> 1%",
     "last 2 versions",

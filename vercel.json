@@ -1,13 +1,20 @@
 {
-  "buildCommand": "",
-  "outputDirectory": ".",
-  "installCommand": "",
+  "buildCommand": "npm run build:ssg",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/book/:path*",
+      "destination": "/book/:path*.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/book/:path*.html",
+      "destination": "/book/:path*",
+      "permanent": false
     }
   ],
   "headers": [
@@ -21,19 +28,15 @@
       ]
     },
     {
-      "source": "/book/(.*)\\.(md)",
+      "source": "/(.*)\\.(html)",
       "headers": [
         {
-          "key": "Content-Type",
-          "value": "text/plain; charset=utf-8"
-        },
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
           "key": "Cache-Control",
-          "value": "public, max-age=3600"
+          "value": "public, max-age=3600, s-maxage=86400"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
         }
       ]
     },
@@ -55,6 +58,10 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self';"
         }
       ]
     }
