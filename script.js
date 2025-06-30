@@ -12,7 +12,7 @@ let readingStats = {
 let readingPreferences = {
   fontSize: 'default',
   lineHeight: 'default',
-  theme: 'light'
+  theme: 'dark'
 };
 
 // ===== DOM ELEMENTS =====
@@ -452,15 +452,14 @@ function updateActiveChapter(chapterId) {
 }
 
 function initializeTheme() {
-  const savedTheme = localStorage.getItem('theme') || 'dark';
+  const savedTheme = localStorage.getItem('theme') || readingPreferences.theme || 'dark';
   document.documentElement.setAttribute('data-theme', savedTheme);
   readingPreferences.theme = savedTheme;
   updateThemeIcon(savedTheme);
 }
 
 function toggleTheme() {
-  const currentTheme = document.documentElement.getAttribute('data-theme');
-  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   
   document.documentElement.setAttribute('data-theme', newTheme);
   localStorage.setItem('theme', newTheme);
