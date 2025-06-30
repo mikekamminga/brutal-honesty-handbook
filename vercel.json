@@ -1,14 +1,14 @@
 {
-  "i18n": {
-    "defaultLocale": "en",
-    "locales": ["en", "nl"]
-  },
   "buildCommand": "npm run build:ssg",
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
+    {
+      "source": "/nl",
+      "destination": "/nl/index.html"
+    },
     {
       "source": "/book/:path*",
       "destination": "/book/:path*.html"
